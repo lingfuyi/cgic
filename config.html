@@ -1,0 +1,530 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
+<HTML><HEAD>
+<METAHTTP-EQUIV="Pragma"CONTENT="no-cache">
+<METAHTTP-EQUIV="Cache-Control"CONTENT="no-cache">
+<METAHTTP-EQUIV="Expires"CONTENT="0">
+<meta charset="utf-8">
+<TITLE>适配器配置</TITLE>
+<style>
+#table{
+	border-radius:20px;
+	border:0px;
+	background:#CCCCCC;
+}
+#table td{
+	color:##00CED1;
+	font-family:"仿宋";
+	color:#666666;border:0px;
+}
+#h1{
+	color:#CCCCCC;
+	font-family:"仿宋";
+}
+input{
+	font-family:"仿宋";
+	height:30px;
+	color:#0;
+	border : 0;
+	background:#F0FFFF;
+}
+.button{
+	margin-right:10px;
+	background:#666666;
+	width:80px;
+	border-radius:5px;
+	color:#FAF0E6;
+}
+.button:active{
+	background:green;
+}
+/*
+.statusA{
+	height:80px;
+	background:red;
+	width:80px;
+	border-radius:5px;
+	font color:white;
+	font-size:44px "微软雅黑" ;
+	font-weight:bold;
+}
+/*
+.statusB{
+	margin-right:10px;
+	background:darkgreen;
+	width:80px;
+	border-radius:5px;
+	color:#FAF0E6;
+}
+*/
+.file-box{
+	 position:relative;
+	 width:340px;
+} 
+.txt{ 
+	height:30px;
+	 border:1px solid #CCCCCC; 
+	 width:180px;
+} 
+.btn{ 
+	background-color:#666666;
+	 border:1px solid #CDCDCD;
+	 height:30px; 
+	 width:70px;
+} 
+.file{ 
+	position:absolute; 
+	top:0;
+    right:80px; 
+    height:30px; 
+    filter:alpha(opacity:0);
+    opacity: 0;
+    width:260px 
+} 
+#box{
+	width:400px;
+	height:200px;
+	border:1px solid black;
+	border-radius:5px;
+	position:relative;
+	background-color: darkgray;top:-150px;/*改变此数值，改变显示位置*/
+	left:800px;/*改变此数值，改变显示位置*/
+	display:none;
+}
+#proBox{
+	width:300px;
+	height:15px;
+	border:1px solid black;
+	border-radius:10px;
+	position:absolute;
+	top:20px;
+	left:40px;
+}
+#proBox .progress{
+	width:0px;height:15px;
+	border-radius:10px;
+	position:absolute;
+	background:green;/*可以加载背景图片：格式：background:url(背景图片地址) x-repeat left center*/
+	top:-16px;
+	left:0px;
+}
+#proBox span{
+	position:absolute;
+	top:-0px;
+	left:305px;
+	font-size:14px "微软雅黑";
+}
+#text{
+	width:250px;
+	text-align: center;
+	min-height:20px;
+	line-height:20px;
+	position:absolute;
+	top:35px;
+	left:80px;
+	font-size:14px "仿宋";
+}
+
+	
+</style>
+</HEAD>
+<BODY style="background:#666666" onload="GetConfig()">
+<iframe name="server" style="display:none;" src=' '></iframe> 
+<form action="/cgi-bin/config.cgi" method="POST" target="server" ENCTYPE="multipart/form-data">
+<input style="border-radius:5px;background: red;width:60px;height:60px;font-size:24px ;font-weight:bold;color:white"  id="connectstatus" input type="submit"  disabled="true"  value="离线" >
+<table  id="table" cellpadding="5" width="60%" border="1px" align="center"  border-radius="5px"><tr bgcolor="#E0F0F"></tr><br>
+<tr><td align="center" width="20%">硬件版本号:</td><td id = "HardVersion"></td></tr>
+<tr><td align="center" width="20%">软件版本号:</td><td id = "SoftVersion"></td></tr>
+<tr><td align="center" width="20%">MAC:</td><td id = "MAC"></td></tr>
+<tr><td align="center" width="20%">IMEI:</td><td id = "IMEI"></td></tr>
+<tr><td align="center" width="20%">服务器IP:</td><td ><input name="ip" size="30" id = "Ip"></td></tr>
+<tr><td align="center" width="20%">端口号:</td><td><input name="port" size="30" id = "Port"></td></tr>
+<tr><td align="center" width="20%">通讯接口选择:</td><td>
+<input type="radio" id=Porttypea name="porttype" value="1">rs232
+<input type="radio" id=Porttypeb name="porttype" value="2">rs485</td></tr>
+<tr><td align="center" width="20%">波特率:</td><td>
+<select name ="bau" id="selbau"></select></td></tr>
+<tr><td align="center" width="20%">通讯文件上载:</td><td align="left" width="20%"><div class="file-box"> 
+<input type='text' name='textfield' id='textfield' class='txt' /> 
+<input type='button' class='btn' value='浏览' /> 
+<input type="file" name="sofile" class="file" id="fileField" size="28" onchange="document.getElementById('textfield').value=this.value" /> </div> 
+<tr><td align="center" width="20%">通讯协议:</td><td>
+<select name ="net" id="setnet"></select></td></tr>
+	
+<tr><td align="center" width="20%">升级文件上载:</td><td align="left" width="20%"><div class="file-box"> 
+<input type='text' name='textfield1' id='textfield1' class='txt' /> 
+<input type='button' class='btn' value='浏览' /> <input type="file" name="updatefile" class="file" id="fileField1" size="28" onchange="document.getElementById('textfield1').value=this.value" /> </div> 
+<tr><td align="center" width="20%">MD5文件上载:</td><td align="left" width="20%"><div class="file-box"> <input type='text' name='textfield2' id='textfield2' class='txt' /> <input type='button' class='btn' value='浏览' /> 
+<input type="file" name="MD5file" class="file" id="fileField2" size="28" onchange="document.getElementById('textfield2').value=this.value" /> </div> 
+<tr><td></td><td align="left">
+<input class ="button" id="enter" input type="submit" name="Setting" onclick="ShowLoadNews()"  value="确认">
+
+</table>
+</form>
+<div id="box">
+	<div id = "proBox">
+		<p class = "progress"></p>
+		<span class="scale">0%</span>
+	</div>
+	<p id = "text"></p>
+</div>
+</BODY>
+
+
+
+<script type="text/javascript">
+
+
+/***************************************************************************/
+/**这部分是获取云平台通信是否正常*****/
+/***************************************************************************/
+/***************************************************************************/
+function StatusProcess(returnValue)
+{
+	
+	var str0 = returnValue.split(/\n\/*/g);
+	str0.forEach(function (eachData)
+	{
+		//以=切割字符串	
+		var str1 = eachData.split("=");
+		console.log(str1[0]);
+		SysState=str1[0];
+		switch(str1[1])
+		{
+			case "Run":
+				document.getElementById("connectstatus").value="连接";
+				document.getElementById("connectstatus").style.background="green";
+				break;
+			case "Stop":
+				document.getElementById("connectstatus").value="断开";
+				document.getElementById("connectstatus").style.background="red";
+			break;
+		}
+	})
+}
+function StatusCallback()
+{
+	if (xhr.readyState == 4) 
+    {
+        if (xhr.status == 200) 
+        {
+            var returnValue = xhr.responseText;
+
+            if(returnValue != null && returnValue.length > 0)
+            {
+            	console.log(returnValue);
+        		StatusProcess(returnValue);
+            }
+            else
+            {
+                console.log("结果为空！");
+            }
+        } 
+        else 
+        {
+            console.log("页面出现异常！");
+        }
+    }
+}
+function SendGetStatus()
+{
+	 //test.cgi后面跟个cur_time参数是为了防止Ajax页面缓存
+        xhr.open("GET", "cgi-bin/config.cgi?getstatus");
+        xhr.send(null);
+        setTimeout("SendGetStatus()", 5000);
+}
+function GetConnect()
+{
+	var xhr;
+    xhr = createXHR();
+
+    if(xhr)
+    {
+        xhr.onreadystatechange=StatusCallback;
+       	SendGetStatus();
+    }
+    else
+    {
+        //XMLHttpRequest对象创建失败
+        alert("浏览器不支持，请更换浏览器！");
+    }
+}
+/***************************************************************************/
+/**这部分是获取配置文件信息显示*****/
+/***************************************************************************/
+/***************************************************************************/
+	/*
+ *创建异步访问对象
+ */
+
+function createXHR() 
+{
+   
+
+    try 
+    {
+        xhr = new ActiveXObject("Msxml2.XMLHTTP");
+    } 
+    catch (e) 
+    {
+        try 
+        {
+            xhr = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        catch(E) 
+        {
+            xhr = false;
+        }
+    }
+
+    if (!xhr && typeof XMLHttpRequest != 'undefined') 
+    {
+        xhr = new XMLHttpRequest();
+    }
+    return xhr;
+}
+
+/*
+ *异步访问提交处理
+ */
+function GetConfig() 
+{
+	var xhr;
+    xhr = createXHR();
+
+    if(xhr)
+    {
+        xhr.onreadystatechange=callbackFunction;
+    
+
+        //test.cgi后面跟个cur_time参数是为了防止Ajax页面缓存
+        xhr.open("GET", "cgi-bin/config.cgi?getconf");
+    
+        xhr.send(null);
+    }
+    else
+    {
+        //XMLHttpRequest对象创建失败
+        alert("浏览器不支持，请更换浏览器！");
+    }
+}
+
+
+function baudratepress(bauset){
+	var selObj = document.getElementById("selbau");
+	var baulib=new Array("2400","4800","9600","14400","19200","38400","57600","115200","230400","460800","921600");
+	var Option = document.createElement("OPTION");
+	Option.value = bauset;
+	Option.text = bauset;
+	selObj.options.add(Option);
+	for(var i=0 ; i<baulib.length ; i++)
+	{
+		if(bauset!=baulib[i])
+		{
+			var Option = document.createElement("OPTION");
+			Option.value=baulib[i];
+			Option.text=baulib[i];
+			selObj.options.add(Option);
+		}
+	}
+	
+}
+//数据处理函数
+function dataProcess(returnValue){
+	var selObj = document.getElementById("setnet");
+	//以/\n切割字符串
+	var str0 = returnValue.split(/\n\/*/g);
+	
+	str0.forEach(function (eachData){
+		//以=切割字符串	
+		var str1 = eachData.split("=");
+		//console.log(str1[0]);
+		switch(str1[0]){
+			case "HardVersion":
+				document.getElementById("HardVersion").innerHTML = str1[1];
+				break;
+			case "SoftVersion":
+				document.getElementById("SoftVersion").innerHTML = str1[1];
+				break;
+			case "MAC":
+				document.getElementById("MAC").innerHTML = str1[1];
+				break;
+			case "IMEI":
+				document.getElementById("IMEI").innerHTML = str1[1];
+				break;
+			case "Ip":
+				document.getElementById("Ip").value = str1[1];
+				break;
+			case "Port":
+				document.getElementById("Port").value = str1[1];
+				break;
+			case "Porttypea":
+				document.getElementById("Porttypea").checked = true;
+				break;
+			case "Porttypeb":
+				document.getElementById("Porttypeb").checked = true;
+				break;
+			case "bau0":
+				baudratepress(str1[1]);//传进来波特率的值
+				break;
+			case "Lib":
+				var Option = document.createElement("OPTION");
+				Option.value=str1[1];
+				Option.text=str1[1];
+				selObj.options.add(Option);				
+				break;
+			case "setnet":
+				var Option = document.createElement("OPTION");
+				Option.value=str1[1];
+				Option.text=str1[1];
+				selObj.options.add(Option);				
+				break;
+			case "readend":
+				xhr.abort();
+				GetConnect();
+				break;
+		}
+	})
+}
+		
+/*
+ *异步回调函数处理
+ */
+function callbackFunction()
+{
+    if (xhr.readyState == 4) 
+    {
+        if (xhr.status == 200) 
+        {
+            var returnValue = xhr.responseText;
+
+            if(returnValue != null && returnValue.length > 0)
+            {
+            	console.log(returnValue);
+                dataProcess(returnValue);
+            }
+            else
+            {
+                console.log("结果为空！");
+            }
+        } 
+        else 
+        {
+           console.log("页面出现异常！");
+        }
+    }
+}	
+
+/********************************************************************************************************************************************************************/
+/********************************************************************************************************************************************************************/
+/**这部分读取升级进度*****/
+/********************************************************************************************************************************************************************/
+/********************************************************************************************************************************************************************/
+	
+//进度条
+
+var SysState=0xff;
+var num = 0;
+var timer;
+function progress(timeValue){
+	//加载进度条
+	document.getElementById("box").style.display = "block";
+	document.getElementById("text").innerHTML = "系统正在升级,请保持电源连接稳定\n     正在下载.....";
+	//清理定时器
+	clearInterval(timer);
+	
+	//开启进度条定时器
+	 timer = setInterval(function (){
+	 	if(num<30)
+	 	{
+			document.getElementsByClassName("progress")[0].style.width = num*3 + "px";
+			document.getElementsByTagName("span")[0].innerHTML = num + "%";
+			num++;
+		}
+		else
+		{
+			switch(SysState)
+			{
+				case "0":
+					document.getElementById("text").innerHTML = "系统正在升级,请保持电源连接稳定\n    系统更新成功";
+					document.getElementsByClassName("progress")[0].style.width = 100*3 + "px";
+					document.getElementsByTagName("span")[0].innerHTML = 100 + "%";
+					alert("系统更新成功");
+					break;
+				case "1":
+					document.getElementById("text").innerHTML = "系统正在升级,请保持电源连接稳定\n    系统更新失败:MD5校验失败";
+					document.getElementsByClassName("progress")[0].style.width = 20*3 + "px";
+					document.getElementsByTagName("span")[0].innerHTML = 20 + "%";
+					alert("系统更新失败:MD5校验失败");
+					break;
+				case "2":
+					document.getElementById("text").innerHTML = "系统正在升级,请保持电源连接稳定\n     系统更新失败:解压状态失败";
+					document.getElementsByClassName("progress")[0].style.width = 40*3 + "px";
+					document.getElementsByTagName("span")[0].innerHTML = 40 + "%";
+					alert("系统更新失败:解压状态失败");
+					break;
+				case "3":
+					document.getElementById("text").innerHTML = "系统正在升级,请保持电源连接稳定\n     系统更新失败:安装失败";
+					document.getElementsByClassName("progress")[0].style.width = 60*3 + "px";
+					document.getElementsByTagName("span")[0].innerHTML = 60 + "%";
+					alert("系统更新失败:安装失败");
+					break;
+				case "4":
+					document.getElementById("text").innerHTML = "系统正在升级,请保持电源连接稳定\n     系统更新失败:删除升级文件失败";
+					document.getElementsByClassName("progress")[0].style.width = 80*3 + "px";
+					document.getElementsByTagName("span")[0].innerHTML = 80 + "%";
+					alert("系统更新失败:删除升级文件失败");
+					break;
+				default:
+				SysState=0xff;
+				break;
+			
+			}
+			//关闭定时器
+	
+			if(SysState!=0xff)
+			{
+				setTimeout(function (){
+				document.getElementById("box").style.display = "none";
+				document.getElementById("enter").style.display = "block";
+				window.location.reload();
+			},1000)
+			clearInterval(timer);
+			}
+			return;
+		}
+	},timeValue)
+	 
+	//显示传输内容
+	
+}
+/*
+ *异步访问提交处理
+ */
+function ShowLoadNews() 
+{
+	xhr.abort();
+	var hasfile=0;
+	var ff = document.getElementsByTagName("input");
+	for(var i=0;i< ff.length; i++)
+	{
+	  if(ff[i].type == "file")
+	  {
+	     if(ff[i].value!=""&&ff[i].name!="sofile")
+	     {
+	     	hasfile++;//have some file to upload
+	     }
+	  }
+	}
+	if(hasfile!=2)
+	{
+		SysState="0";
+		progress(100);
+		return;
+	}
+	else
+	{
+		progress(100);
+	}
+}
+</script>
+</HTML>

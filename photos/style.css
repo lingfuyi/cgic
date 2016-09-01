@@ -1,0 +1,119 @@
+﻿/*@import "menu.css";*/
+/** 清除内外边距 *Download by http://www.codesc.net*/
+body, h1, h2, h3, h4, h5, h6, hr, p,
+blockquote, /* structural elements 结构元素 */
+dl, dt, dd, ul, ol, li, /* list elements 列表元素 */
+pre, /* text formatting elements 文本格式元素 */
+form, fieldset, legend, button, input, textarea, /* form elements 表单元素 */
+th, td, /* table elements 表格元素 */
+img/* img elements 图片元素 */{
+	margin: 0;
+	padding: 0;
+}
+/** 设置默认字体 **/
+body,button, input, select, textarea {
+font: 12px/1.5 '宋体',tahoma, Srial, helvetica, sans-serif; }
+h1, h2, h3, h4, h5, h6 { font-size: 100%; }
+em{font-style:normal;}
+/** 重置列表元素 **/
+ul, ol { list-style: none; }
+/** 重置超链接元素 **/
+a { text-decoration: none; color:#000;}
+a:hover { text-decoration: underline; color:#3363a7; }
+/** 重置图片元素 **/
+img{ border:0px;}
+/** 重置表格元素 **/
+table { border-collapse: collapse; border-spacing: 0; }
+
+/*清除浮动*/
+.clear{
+	height:0px;
+	line-height:0px;
+	font-size:0px;
+	clear:both;
+	}
+.fleft{ float:left}
+.fright{ float:right}
+#wrap{ width:100%;}
+#header{ height:78px; background:url(index-header-bg.gif) repeat-x;}
+.logo{ width:362px; height:51px; background:url(index-logo.gif);}
+.header-rt {
+	margin-top: 20px;
+	margin-left: 100px;
+	overflow: hidden;
+	color: #FFFFFF;
+	text-align: right;
+	margin-right: 60px;
+}
+
+.logout{ width:23px; height:24px; background:url(index-logout.png); margin-top:14px;}
+.nav ul{ height:51px; overflow:hidden; color:#effaff}
+.nav li{ float:left; padding-top:27px; width:93px; height:51px; background:url(index-nav-bg.png); text-align:center;}
+.nav li:hover{ background-position:0 -52px;}
+.nav .first{ background:url(index-nav-firstbg.png);}
+.nav .first:hover{ background-position:0 -52px;}
+
+.nav-left{ width:34px; height:51px; background:url(index-nav-left.png);}
+.nav-right{ width:34px; height:51px; background:url(index-nav-right.png);}
+.subnav{ height:27px; background:url(index-subnav-bg.gif)}
+.subnav .subnavLeft{ width:17px; height:27px; background:url(index-subnav-left.gif)}
+.subnav .subnavRight{ width:17px; height:27px; background:url(index-subnav-right.gif)}
+.menu{ width:168px; height:495px; background:#e6f4fa; color:#075587; margin-left:5px;}
+.menu ul{ width:168px;}
+.menu ul li{ width:168px; background:url(index-menu-bg.gif) no-repeat; text-align:center}
+.menu ul li a{ height:26px; line-height:26px; color:#075587}
+.menu ul li a:hover{ height:26px; line-height:26px; color:#075587; text-decoration:none; margin-left:10px;}
+.menu .subMenuTitle{ background:url(index-menu-title.gif); text-align:center; height:27px; line-height:26px; color:#fff}
+.menu ul li ul{
+	width:168px;
+}
+.menu ul li ul li{ background:url(index-submenu-bg.gif);}
+
+
+
+.sidebar{
+	width:5px;
+	height:500px;
+	background-color: #198BC9;
+}
+.sidebar .btn{ width:5px; height:39px; background:url(sidebar-on.gif); margin-top:200px;}
+.sidebar .btn:hover{ background-position:0 -39px;}
+.page{ width:auto; height:500px; background:#198bc9}
+.page iframe{ margin:0 auto;}
+#content .space{ height:5px; font-size:0px; background:#198bc9}
+#footer{ width:100%; height:26px; line-height:26px; background:url(index-footer-bg.gif);}
+
+
+.pageTitle{ height:27px; line-height:27px; color:#075587; background:url(page-pageTitle-bg.gif); }
+.pageTitle span{ margin-left:10px;}
+.pageButton{
+	height:auto;
+	text-indent: 20px;
+}
+
+
+.pageColumn{ background:url(page-bg.gif) repeat-x; padding:5px;}
+.pageColumn table{
+	width:100%
+}
+.pageColumn thead{ border:1px solid #bfd8e0; color:#075587; background:url(page-thead-bg.gif);}
+.pageColumn thead th{ border-left:1px solid #c5dbe2; text-align:center; height:28px;}
+.pageColumn tbody tr{ border:1px solid #bfd8e0; height:28px;}
+.pageColumn tbody .trLight{ background:#f9fcfd}
+.pageColumn tbody .checkBox{ background:#f1f7f9; border:1px solid #bfd8e0; text-align:center}
+.pageColumn tbody td{ text-align:center;}
+/* .pageColumn */
+.hidden {
+	display: none;
+}
+.display {
+	display: block;
+}
+#wrap #content {
+	background-color: #198BC9;
+}
+.biaoge tbody td { text-align:left;}
+.biaoge td { height:30px; line-height:30px;}
+.text { width:160px; height:18px; border:1px solid #999;}
+.text1{ width:300px; height:18px; border:1px solid #999;}
+.text2{ width:300px; height:80px; border:1px solid #999;}

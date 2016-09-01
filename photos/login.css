@@ -1,0 +1,67 @@
+/*@import "menu.css";*/
+/** 清除内外边距 **/
+body, h1, h2, h3, h4, h5, h6, hr, p,
+blockquote, /* structural elements 结构元素 */
+dl, dt, dd, ul, ol, li, /* list elements 列表元素 */
+pre, /* text formatting elements 文本格式元素 */
+form, fieldset, legend, button, input, textarea, /* form elements 表单元素 */
+th, td, /* table elements 表格元素 */
+img/* img elements 图片元素 */{
+border:medium none;
+margin: 0;
+padding: 0;
+}
+/** 设置默认字体 **/
+body,button, input, select, textarea {
+font: 12px/1.5 '宋体',tahoma, Srial, helvetica, sans-serif; }
+body{background:url(background.jpg) no-repeat center;background-size:100% 100%;}
+body,html{width:100%;height:100%;}
+h1, h2, h3, h4, h5, h6 { font-size: 100%; }
+#h1{position:absolute;top:200px;left:280px;}
+em{font-style:normal;}
+/** 重置列表元素 **/
+ul, ol { list-style: none; }
+/** 重置超链接元素 **/
+a { text-decoration: none; color:#000;}
+a:hover { text-decoration: underline; color:#0; }
+/** 重置图片元素 **/
+img{ border:0px;}
+/** 重置表格元素 **/
+table { border-collapse: collapse; border-spacing: 0; }
+
+/*清除浮动*/
+.clear{
+	height:0px;
+	line-height:0px;
+	font-size:0px;
+	clear:both;
+	}
+
+/*body{ background:#0a76b0}*/
+#wrap{
+	width:960px;
+	/*margin:0 auto;*/
+	/*background:url(login-bg.gif);*/
+	height:613px;
+	text-align: center
+	
+}
+#header{ height:170px;}
+#content-wrap{ width:593px; height:357px; background:url(login-bg.png);
+position:absolute;top:250px;left:140px;}
+.content{ width:210px; height:237px; margin:0 auto;}
+.space{ height:103px;}
+.login-btn{ width:68px; height:28px; background:url(login-btn.gif) -6px -6px;}
+.login-btn:hover{ background-position:-6px -49px;}
+.field{ height:50px;}
+.field label{ color:#dbf2ff}
+.btn{text-align:center;}
+.field input{ background:url(login-input.gif); width:159px; height:29px; line-height:29px; text-indent:35px;}
+.field .password{
+	background-position:0 -29px;
+}
+.field .yangzheng {
+	background-position:0 -58px;
+	width: 80px;
+	text-align: left;
+}

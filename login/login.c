@@ -39,13 +39,9 @@ int main( int argc, char *argv[] )
             return -1;
 		}
 		UserInput[data_len] = '\0';
-        //printf("method = %s, data_len = %d<br>", request_method, data_len);
-        //printf("data: %s", UserInput);
-		if(!strcmp(&UserInput[7],"1357"))
+		if(UserInput[7]=='1'&&UserInput[8]=='3'&&UserInput[9]=='5'&&UserInput[10]=='7')
 		{			
-			//printf("<meta http-equiv=\"Refresh\" content=\"0;URL=./config.cgi\"> ");
 			printf("<script>window.location.href='/config.html';</script>");
-			printf( "There's no input data !\n" );
 		}
 		else
 		{

@@ -11,15 +11,15 @@
 
 char Ip[20]={0};
 char Port[20]={0};
-char Rs232[20]={0};
-char Rs485[20]={0};
 char HardVersion[20]={0};
 char SoftVersion[20]={0};
 char IMEI[20]={0};
 char MAC[30]={0};
-char Baudrate[20]={0};
-char Lib[20]={0};
-char Porttype[20]={0};
+char Baudrate232[20]={0};
+char Baudrate485[20]={0};
+char Lib232[30]={0};
+char Lib485[30]={0};
+char PortSelect[30]={0};
 char TotleSoFile[10][20];
 char TotleSoNum=0;
 const char *BaudrateTable[] = 
@@ -37,17 +37,28 @@ const char *BaudrateTable[] =
 	"921600"
 };
 
-char *porttable[]=
+char *PortSelectTable[]=
 {
 	"1",
 	"2"
 };
 
-enum UpStatus
+static void CopyIndexStr(char *dest , char *src)
 {
-	UPSUCCESS,		//状态0 上传成功
-};
-
+	int i=0;
+	for(i=0 ; i<30 ; i++)
+	{
+		if('='!=src[i])
+		{
+			dest[i]=src[i];
+		}
+		else
+		{
+			break;
+		}
+	}
+	dest[i]='\0';
+}
 /*
 Find the '=' pos and get the config dat
 */
@@ -64,7 +75,7 @@ static int DatPos(char *dat , int index )
 	}
 	else //find the *.so file
 	{
-		while(*dat&&*(dat+1))
+		while(*(dat+1)&&*dat)
 		{
 			if(*dat=='s'&&*(dat+1)=='o')
 			{
@@ -134,111 +145,145 @@ void GetSoFileList(void)
 void ReadTandaConf(void)
 {
 	FILE *fd;
-	char StrLine[1024];  
-	char ptr[20];
+	char StrLine[200];  
+	char ptr[30];
 	int i=0;
 	if((fd = fopen("/data/Tanda.conf","r")) == NULL) 
 	{ 
+		printf("cant't open file\n");
+		fclose(fd);   
 		return; 
 	} 
-
+	
 	while (!feof(fd)) 
 	{     
-		fgets(StrLine,1024,fd);  
+		fgets(StrLine,200,fd);  
 		if(StrLine[0]=='#'||StrLine[0]==' ')
 		{
 			continue;
-		}
+		}		
 		else
 		{
 			i=DatPos(StrLine , 0);
 			memset(ptr , 0 , sizeof(ptr));
-			strncpy(ptr , StrLine , 3);
-			ptr[3]='\0';
-			if(!strcmp(ptr , "Har"))
+			CopyIndexStr(ptr,StrLine);
+			if(!strcmp(ptr , "HardVersion"))
 			{
 				strncpy(HardVersion,&StrLine[i+1],sizeof(HardVersion));
 				HardVersion[sizeof(HardVersion)-1]='\0';
-				continue;
 			}			
-			if(!strcmp(ptr , "Sof"))
+			else if(!strcmp(ptr , "SoftVersion"))
 			{
 				strncpy(SoftVersion,&StrLine[i+1],sizeof(SoftVersion));
 				SoftVersion[sizeof(SoftVersion)-1]='\0';
-				continue;
 			}
-
-			if(!strcmp(ptr , "IME"))
+			else if(!strcmp(ptr , "IMEI"))
 			{
 				strncpy(IMEI,&StrLine[i+1],sizeof(IMEI));
 				IMEI[sizeof(IMEI)-1]='\0';
-				continue;
 			}
-			if(!strcmp(ptr , "ip="))
+			else if(!strcmp(ptr , "ip"))
 			{
 				strncpy(Ip,&StrLine[i+1],sizeof(Ip));
 				Ip[sizeof(Ip)-1]='\0';
-				continue;
 			}
-			if(!strcmp(ptr , "por")&&StrLine[4]=='=')
+			else if(!strcmp(ptr , "port"))
 			{
 				strncpy(Port,&StrLine[i+1],sizeof(Port));
 				Port[sizeof(Port)-1]='\0';
-				continue;
 			}
-			if(!strcmp(ptr , "rs2"))
+			else if(!strcmp(ptr , "portenable"))
 			{
-				strncpy(Rs232,&StrLine[i+1],sizeof(Rs232));
-				Rs232[sizeof(Rs232)-1]='\0';
-				continue;
+				strncpy(PortSelect,&StrLine[i+1],sizeof(PortSelect));
+				PortSelect[sizeof(PortSelect)-1]='\0';
 			}
-			if(!strcmp(ptr , "rs4"))
+			else if(!strcmp(ptr , "baudrate232"))
 			{
-				strncpy(Rs485,&StrLine[i+1],sizeof(Rs485));
-				Rs485[sizeof(Rs485)-1]='\0';
-				continue;
-			}
-			if(!strcmp(ptr , "bau"))
+				strncpy(Baudrate232,&StrLine[i+1],sizeof(Baudrate232));
+				Baudrate232[sizeof(Baudrate232)-1]='\0';
+			}			
+			else if(!strcmp(ptr , "baudrate485"))
 			{
-				strncpy(Baudrate,&StrLine[i+1],sizeof(Baudrate));
-				Baudrate[sizeof(Baudrate)-1]='\0';
-				continue;
+				strncpy(Baudrate485,&StrLine[i+1],sizeof(Baudrate485));
+				Baudrate485[sizeof(Baudrate485)-1]='\0';
 			}
-			if(!strcmp(ptr , "pro"))
+			else if(!strcmp(ptr , "protocolName232"))
 			{
-				strncpy(Lib,&StrLine[i+3],sizeof(Lib));
-				Lib[sizeof(Lib)-1]='\0';
-				continue;
+				strncpy(Lib232,&StrLine[i+3],sizeof(Lib232));
+				Lib232[sizeof(Lib232)-1]='\0';
 			}
-			if(!strcmp(ptr , "por")&&StrLine[4]=='t')//porttype
+			else if(!strcmp(ptr , "protocolName485"))
 			{
-				strncpy(Porttype,&StrLine[i+1],sizeof(Porttype));
-				Porttype[sizeof(Porttype)-1]='\0';
-				continue;
+				strncpy(Lib485,&StrLine[i+3],sizeof(Lib485));
+				Lib485[sizeof(Lib485)-1]='\0';
 			}
+			else
+				;
 		}
 		
 	} 
+	
 	fclose(fd);                    
 	
 }
 
-void WriteConfDat(void)
+int WriteConfDat(void)
 {
 	
 	FILE *fd;
-	int SoChoice;
-	int bauChoice;
-	int portchoice;
+	int SoChoice232;
+	int bauChoice232;
+	int SoChoice485;
+	int bauChoice485;
+	int portselect[2];
 	int i;
+	int result , invalid;
 	ReadTandaConf();
 	cgiFormStringNoNewlines("ip", Ip, sizeof(Ip));
 	cgiFormStringNoNewlines("port", Port, sizeof(Port));
-	cgiFormRadio("porttype", porttable, 2, &portchoice, 0);
-	cgiFormSelectSingleNormal("bau", BaudrateTable, 11, &bauChoice, 0);
-	//printf("<p>bau=%s ,%d<p>\n",BaudrateTable[bauChoice],bauChoice);
+	result = cgiFormCheckboxMultiple("portcheck", PortSelectTable, 2, portselect, &invalid);
+	if (cgiFormNotFound == result) 
+	{
+		return -1;
+	}
+	else 
+	{	
+		result=0;
+		for (i=0; i < 2; i++)
+		{
+			if (portselect[i]) 
+			{
+				result+=(i+1);
+			}
+		}
+	}
+	
 	GetSoFileList();
-	cgiFormSelectSingle("net", TotleSoFile, TotleSoNum, &SoChoice, 0);
+	if(1 == result)
+	{
+		PortSelect[0]='1';
+		cgiFormSelectSingleNormal("bau232", BaudrateTable, 11, &bauChoice232, 0);
+		cgiFormSelectSingle("net232", TotleSoFile, TotleSoNum, &SoChoice232, 0);
+	}
+	else if(2 == result)
+	{
+		PortSelect[0]='2';
+		cgiFormSelectSingleNormal("bau485", BaudrateTable, 11, &bauChoice485, 0);
+		cgiFormSelectSingle("net485", TotleSoFile, TotleSoNum, &SoChoice485, 0);
+	}
+	else if(3 == result)
+	{
+		PortSelect[0]='3';
+		cgiFormSelectSingleNormal("bau232", BaudrateTable, 11, &bauChoice232, 0);
+		cgiFormSelectSingle("net232", TotleSoFile, TotleSoNum, &SoChoice232, 0);
+		cgiFormSelectSingleNormal("bau485", BaudrateTable, 11, &bauChoice485, 0);
+		cgiFormSelectSingle("net485", TotleSoFile, TotleSoNum, &SoChoice485, 0);
+	}
+	else
+	{
+		return -2;
+	}
+    system("chmod 777 /data/Tanda.conf");
 	fd=fopen("/data/Tanda.conf" ,"w");
 	if(fd)
 	{			
@@ -267,39 +312,65 @@ void WriteConfDat(void)
 		fputs(Port , fd);
 		fputs("\n\n",fd);
 
-		fputs("#rs232port=/dev/ttymxc\nrs232port=",fd);
-		fputs(Rs232, fd);
+		fputs("#1 is 232 , 2 is 485 , 3 is all\nportenable=",fd);
+		fputc(PortSelect[0], fd);
 		fputs("\n\n",fd);
-
-		fputs("#rs485port=/dev/ttymxc\nrs485port=",fd);
-		fputs(Rs485, fd);
-		fputs("\n\n",fd);
-
-		fputs("#Baudrate\nbaudrate=",fd);
-		if(bauChoice==0)
-			fputs(Baudrate, fd);
+		if(1==result)
+		{
+			fputs("#Baudrate\nbaudrate232=",fd);
+			fputs(BaudrateTable[bauChoice232], fd);
+			fputs("\n\n",fd);
+			fputs("#protocolName232\nprotocolName232=./",fd);				
+			fputs(TotleSoFile[SoChoice232] , fd);
+			fputs("\n\n",fd);
+			fputs("#Baudrate485\nbaudrate485=",fd);
+			fputs(Baudrate485, fd);
+			fputs("\n\n",fd);
+			fputs("#protocolName\nprotocolName485=./",fd);				
+			fputs(Lib485, fd);
+			fputs("\n\n",fd);
+		}
+		else if (2 == result)
+		{
+			fputs("#Baudrate\nbaudrate232=",fd);
+			fputs(Baudrate232, fd);
+			fputs("\n\n",fd);
+			fputs("#protocolName232\nprotocolName232=./",fd);				
+			fputs(Lib232, fd);
+			fputs("\n\n",fd);
+			fputs("#Baudrate485\nbaudrate485=",fd);
+			fputs(BaudrateTable[bauChoice485], fd);
+			fputs("\n\n",fd);
+			fputs("#protocolName\nprotocolName485=./",fd);				
+			fputs(TotleSoFile[SoChoice485], fd);
+			fputs("\n\n",fd);
+		}
 		else
-			fputs(BaudrateTable[bauChoice], fd);
-		fputs("\n\n",fd);
-		
-		fputs("#protocolName\nprotocolName=./",fd);				
-		fputs(TotleSoFile[SoChoice] , fd);
-		fputs("\n\n",fd);
-
-		fputs("#Connect Port Select\nporttype=",fd);
-		fputs(porttable[portchoice], fd);
-		fputs("\n\n",fd);
+		{
+			fputs("#Baudrate\nbaudrate232=",fd);
+			fputs(BaudrateTable[bauChoice232], fd);
+			fputs("\n\n",fd);
+			fputs("#protocolName232\nprotocolName232=./",fd);				
+			fputs(TotleSoFile[SoChoice232], fd);
+			fputs("\n\n",fd);
+			fputs("#Baudrate485\nbaudrate485=",fd);
+			fputs(BaudrateTable[bauChoice485], fd);
+			fputs("\n\n",fd);
+			fputs("#protocolName\nprotocolName485=./",fd);				
+			fputs(TotleSoFile[SoChoice485], fd);
+			fputs("\n\n",fd);
+		}
 		fclose(fd);
 
 	}
 	else
 	{
 		printf("err");
+		return -3;
 	}
+	return 0;
 
 }
-
-/*涓婅浇閫氳鏂囦欢*/
 void UpLoadsoFile(void)
 {
 	cgiFilePtr file;
@@ -449,29 +520,39 @@ void RequistConfig(void)
 	GetMAC();
 	ReadTandaConf();
 	fprintf(cgiOut, "SoftVersion=%s/",SoftVersion);
-	fprintf(cgiOut, "/HardVersion=%s/",HardVersion);
+	fprintf(cgiOut, "HardVersion=%s/",HardVersion);
 	fprintf(cgiOut, "MAC=%s\n",MAC);
 	fprintf(cgiOut, "IMEI=%s/",IMEI);
 	fprintf(cgiOut, "Ip=%s/",Ip);
 	fprintf(cgiOut, "Port=%s/",Port);
-	if(Porttype[0]=='1')
-	{
-		fprintf(cgiOut, "Porttypea=%s/",Porttype);
+	if(PortSelect[0]=='1')
+	{		
+		fprintf(cgiOut, "Portselect=1\n/");
 	}
-	else
+	else if(PortSelect[0]=='2')
 	{
-		fprintf(cgiOut, "Porttypeb=%s/",Porttype);
+		fprintf(cgiOut, "Portselect=2\n/");
 	}
-	fprintf(cgiOut, "bau0=%s/",Baudrate);
-	fprintf(cgiOut, "Lib=%s/",Lib);
+	else if(PortSelect[0]=='3')
+	{
+		fprintf(cgiOut, "Portselect=3\n/");
+	}
+	
+	fprintf(cgiOut, "bau232=%s/",Baudrate232);
+	fprintf(cgiOut, "Lib232=%s/",Lib232);
+	fprintf(cgiOut, "bau485=%s/",Baudrate485);
+	fprintf(cgiOut, "Lib485=%s/",Lib485);
 	GetSoFileList();
 	for(i=0 ; i<TotleSoNum ; i++)
 	{
-		if(!strcmp(Lib , TotleSoFile[i]))
-		{
-			continue;
+		if(strcmp(Lib232 , TotleSoFile[i]))
+		{			
+			fprintf(cgiOut, "setnet232=%s/",TotleSoFile[i]);
 		}
-		fprintf(cgiOut, "setnet=%s/",TotleSoFile[i]);
+		if(strcmp(Lib485 , TotleSoFile[i]))
+		{			
+			fprintf(cgiOut, "setnet485=%s/",TotleSoFile[i]);
+		}
 	}
 	fprintf(cgiOut, "readend");
 
@@ -502,7 +583,7 @@ void GetSysState(void)
 	chmod(stream ,777);
 	fread( buf, sizeof(char), sizeof(buf),  stream); 
 	buf[sizeof(buf)]='\0';
-	if(strlen(buf)>4)	//返回的PID为进程号
+	if(strlen(buf)>4)
 	{
 		c=GetSysUpState();
 		printf("%c=Run",c);
@@ -516,6 +597,7 @@ void GetSysState(void)
 }
 int cgiMain() 
 {
+	int ret;
 	char *UserInput = NULL; 		// index the user input data.
    	char *request_method = NULL; 	//index the html transfer type.
 	int data_len = 0;		// index the input data's length.
@@ -542,20 +624,24 @@ int cgiMain()
             return -1;
 		}
 		UserInput[data_len] = '\0';
-		if(!strcmp(UserInput,"getconf"))//客户端申请获取数据
+		if(!strncmp(UserInput,"getconf" , 7))
 		{
 			RequistConfig();
 		}
-		else if(!strcmp(UserInput,"getstatus"))
+		else if(!strncmp(UserInput,"getstatus" , 9))
 		{
 			GetSysState();
 		}
 		
 	}
 	if ((cgiFormSubmitClicked("Setting") == cgiFormSuccess))
-	{
+	{		
+		ret=WriteConfDat();
+		if(0==ret)
+		{
 			SubmitHandle();
-			WriteConfDat();
+		}
+		printf("ret=%d",ret);
 	}
 	return 0;
 }

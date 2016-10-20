@@ -4,7 +4,7 @@
 <LINK rel=stylesheet type=text/css href="photos/login.css">
 <META name=GENERATOR content="MSHTML 8.00.6001.23487">
 </HEAD>
-<BODY>
+<BODY onload="GetFocus()">
 <h1 id = "h1"  style="color:#FDFFFF; font-weight:bold;font-size:24px;"></h1>
 <!-- 2.0: multipart/form-data is required for file uploads. -->
 <form method="GET" enctype="multipart/form-data" 	action="/cgi-bin/login.cgi">
@@ -14,8 +14,7 @@
 <DIV class=space></DIV>
 <FORM method=post action=?go=yes>
 <DIV class=content>
-<DIV class=field><LABEL>KEY:</LABEL><INPUT id=a_pass class=password 
-type=password name=a_pass> <BR></DIV>
+<DIV class=field><LABEL>KEY:</LABEL><INPUT id=a_pass  class=password type=password name=a_pass maxlength="4"> <BR></DIV>
 <IMG 
 style="CURSOR: pointer" 
 onclick="this.src='../inc/checkcode.asp?t='+(new Date().getTime());"height=15> 
@@ -23,3 +22,11 @@ onclick="this.src='../inc/checkcode.asp?t='+(new Date().getTime());"height=15>
 <DIV 
 class=btn><INPUT class=login-btn type=submit name="" value=""></DIV></DIV></FORM></DIV>
 <DIV id=footer></DIV></DIV></form></BODY></HTML>
+
+
+<script type="text/javascript">
+function GetFocus()
+{
+	document.getElementById("a_pass").focus();
+}
+</script>

@@ -12,7 +12,7 @@
 	background:#CCCCCC;
 }
 #table td{
-	color:##00CED1;
+	color:black;
 	font-family:"仿宋";
 	color:#666666;border:0px;
 }
@@ -37,25 +37,6 @@ input{
 .button:active{
 	background:green;
 }
-/*
-.statusA{
-	height:80px;
-	background:red;
-	width:80px;
-	border-radius:5px;
-	font color:white;
-	font-size:44px "微软雅黑" ;
-	font-weight:bold;
-}
-/*
-.statusB{
-	margin-right:10px;
-	background:darkgreen;
-	width:80px;
-	border-radius:5px;
-	color:#FAF0E6;
-}
-*/
 .file-box{
 	 position:relative;
 	 width:340px;
@@ -130,30 +111,34 @@ input{
 <BODY style="background:#666666" onload="GetConfig()">
 <iframe name="server" style="display:none;" src=' '></iframe> 
 <form action="/cgi-bin/config.cgi" method="POST" target="server" ENCTYPE="multipart/form-data">
-<input style="border-radius:5px;background: red;width:60px;height:60px;font-size:24px ;font-weight:bold;color:white"  id="connectstatus" input type="submit"  disabled="true"  value="离线" >
+<input style="border-radius:5px;background: red;width:200px;height:60px;font-size:24px ;font-weight:bold;color:white"  id="connectstatus" input type="submit"  disabled="true"  value="云平台离线" >
 <table  id="table" cellpadding="5" width="60%" border="1px" align="center"  border-radius="5px"><tr bgcolor="#E0F0F"></tr><br>
-<tr><td align="center" width="20%">硬件版本号:</td><td id = "HardVersion"></td></tr>
-<tr><td align="center" width="20%">软件版本号:</td><td id = "SoftVersion"></td></tr>
-<tr><td align="center" width="20%">MAC:</td><td id = "MAC"></td></tr>
-<tr><td align="center" width="20%">IMEI:</td><td id = "IMEI"></td></tr>
-<tr><td align="center" width="20%">服务器IP:</td><td ><input name="ip" size="30" id = "Ip"></td></tr>
-<tr><td align="center" width="20%">端口号:</td><td><input name="port" size="30" id = "Port"></td></tr>
-<tr><td align="center" width="20%">通讯接口选择:</td><td>
-<input type="radio" id=Porttypea name="porttype" value="1">rs232
-<input type="radio" id=Porttypeb name="porttype" value="2">rs485</td></tr>
-<tr><td align="center" width="20%">波特率:</td><td>
-<select name ="bau" id="selbau"></select></td></tr>
-<tr><td align="center" width="20%">通讯文件上载:</td><td align="left" width="20%"><div class="file-box"> 
+<tr><td align="center" width="20%" style="color: black;font-weight:bold;">硬件版本号:</td><td id = "HardVersion"></td></tr>
+<tr><td align="center" width="20%" style="color: black;font-weight:bold;">软件版本号:</td><td id = "SoftVersion"></td></tr>
+<tr><td align="center" width="20%" style="color: black;font-weight:bold;">MAC:</td><td id = "MAC"></td></tr>
+<tr><td align="center" width="20%" style="color: black;font-weight:bold;">适配器ID:</td><td id = "MACID" style="font-weight:bold"></td></tr>
+<tr><td align="center" width="20%" style="color: black;font-weight:bold;">IMEI:</td><td id = "IMEI"></td></tr>
+<tr><td align="center" width="20%" style="color: black;font-weight:bold;">服务器IP:</td><td ><input name="ip" size="30" id = "Ip"></td></tr>
+<tr><td align="center" width="20%" style="color: black;font-weight:bold;">端口号:</td><td><input name="port" size="30" id = "Port"></td></tr>
+<tr><td align="center" width="20%" style="color: black;font-weight:bold;">通讯接口选择:</td><td>
+<input type="checkbox" id=Porttypea232 name="portcheck" value="1" onclick="Display232(this)">RS232
+<input type="checkbox" id=Porttypeb485 name="portcheck" value="2" onclick="Display485(this)">RS485</td></tr>
+<tr><td align="center" width="20%" style="color: black;font-weight:bold;">波特率(RS232):</td><td>
+<select name ="bau232" id="selbau232"></select></td></tr>
+<tr><td align="center" width="20%" style="color: black;font-weight:bold;">波特率(RS485):</td><td>
+<select name ="bau485" id="selbau485"></select></td></tr>
+<tr><td align="center" width="20%" style="color: black;font-weight:bold;">通讯文件上载:</td><td align="left" width="20%"><div class="file-box"> 
 <input type='text' name='textfield' id='textfield' class='txt' /> 
 <input type='button' class='btn' value='浏览' /> 
 <input type="file" name="sofile" class="file" id="fileField" size="28" onchange="document.getElementById('textfield').value=this.value" /> </div> 
-<tr><td align="center" width="20%">通讯协议:</td><td>
-<select name ="net" id="setnet"></select></td></tr>
-	
-<tr><td align="center" width="20%">升级文件上载:</td><td align="left" width="20%"><div class="file-box"> 
+<tr><td align="center" width="20%" style="color: black;font-weight:bold;">通讯协议(RS232):</td><td>
+<select name ="net232" id="setnet232" ></select></td></tr>
+<tr><td align="center" width="20%" style="color: black;font-weight:bold;">通讯协议(RS485):</td><td>
+</select><select name ="net485" id="setnet485"></select></td></tr>	
+<tr><td align="center" width="20%" style="color: black;font-weight:bold;">升级文件上载:</td><td align="left" width="20%"><div class="file-box"> 
 <input type='text' name='textfield1' id='textfield1' class='txt' /> 
 <input type='button' class='btn' value='浏览' /> <input type="file" name="updatefile" class="file" id="fileField1" size="28" onchange="document.getElementById('textfield1').value=this.value" /> </div> 
-<tr><td align="center" width="20%">MD5文件上载:</td><td align="left" width="20%"><div class="file-box"> <input type='text' name='textfield2' id='textfield2' class='txt' /> <input type='button' class='btn' value='浏览' /> 
+<tr><td align="center" width="20%" style="color: black;font-weight:bold;">MD5文件上载:</td><td align="left" width="20%"><div class="file-box"> <input type='text' name='textfield2' id='textfield2' class='txt' /> <input type='button' class='btn' value='浏览' /> 
 <input type="file" name="MD5file" class="file" id="fileField2" size="28" onchange="document.getElementById('textfield2').value=this.value" /> </div> 
 <tr><td></td><td align="left">
 <input class ="button" id="enter" input type="submit" name="Setting" onclick="ShowLoadNews()"  value="确认">
@@ -172,8 +157,40 @@ input{
 
 
 <script type="text/javascript">
-
-
+var IsSelect232Port=0;			//判断是否选择232或者485选择框
+var IsSelect485Port=0;
+var Display232 = function(dom) 
+{
+    var div = dom.nextElementSibling;
+    if (dom.checked) 
+    {
+    	IsSelect232Port=1;
+        //document.getElementById("setnet232").style.display = "block";
+        //document.getElementById("selbau232").style.display = "block";
+    }
+    else
+    {
+    	IsSelect232Port=0;
+        //document.getElementById("setnet232").style.display = "none";
+        //document.getElementById("selbau232").style.display = "none";
+    }
+}
+var Display485 = function(dom) 
+{
+    var div = dom.nextElementSibling;
+    if (dom.checked) 
+    {
+    	IsSelect485Port=1;
+        //document.getElementById("setnet485").style.display = "block";
+        //document.getElementById("selbau485").style.display = "block";
+    }
+    else
+    {
+    	IsSelect485Port=0;
+        //document.getElementById("setnet485").style.display = "none";
+        //document.getElementById("selbau485").style.display = "none";
+    }
+}
 /***************************************************************************/
 /**这部分是获取云平台通信是否正常*****/
 /***************************************************************************/
@@ -182,6 +199,40 @@ function StatusProcess(returnValue)
 {
 	
 	var str0 = returnValue.split(/\n\/*/g);
+	if ( !Array.prototype.forEach ) //判定浏览器是否支持foreach函数,解决IE无法支持的问题
+	{
+
+		Array.prototype.forEach = function forEach( callback, thisArg ) 
+		{		
+			var T, k;
+			
+			if ( this == null )
+			{
+				throw new TypeError( "this is null or not defined" );
+			}
+			var O = Object(this);
+			var len = O.length >>> 0; 
+			if ( typeof callback !== "function" ) 
+			{
+				throw new TypeError( callback + " is not a function" );
+			}
+			if ( arguments.length > 1 ) 
+			{
+				T = thisArg;
+			}
+			k = 0;			
+			while( k < len )
+			{			
+				var kValue;
+				if ( k in O ) 
+				{			
+					kValue = O[ k ];
+					callback.call( T, kValue, k, O );
+				}
+				k++;
+			}
+		};
+	}
 	str0.forEach(function (eachData)
 	{
 		//以=切割字符串	
@@ -191,11 +242,11 @@ function StatusProcess(returnValue)
 		switch(str1[1])
 		{
 			case "Run":
-				document.getElementById("connectstatus").value="连接";
+				document.getElementById("connectstatus").value="云平台连接";
 				document.getElementById("connectstatus").style.background="green";
 				break;
 			case "Stop":
-				document.getElementById("connectstatus").value="断开";
+				document.getElementById("connectstatus").value="云平台断开";
 				document.getElementById("connectstatus").style.background="red";
 			break;
 		}
@@ -256,39 +307,47 @@ function GetConnect()
  *创建异步访问对象
  */
 
-function createXHR() 
-{
-   
-
-    try 
+function createXHR()
+{ 
+	try
     {
-        xhr = new ActiveXObject("Msxml2.XMLHTTP");
-    } 
-    catch (e) 
-    {
-        try 
-        {
-            xhr = new ActiveXObject("Microsoft.XMLHTTP");
-        }
-        catch(E) 
-        {
-            xhr = false;
-        }
+	   // Firefox, Opera 8.0+, Safari
+	    xhr=new XMLHttpRequest();
     }
-
-    if (!xhr && typeof XMLHttpRequest != 'undefined') 
-    {
-        xhr = new XMLHttpRequest();
-    }
-    return xhr;
-}
+	catch (e)
+	{
+	  // Internet Explorer
+		try
+	    {
+	    	xhr=new ActiveXObject("Msxml2.XMLHTTP");
+	    }
+	    catch (e)
+	    {
+	    	try
+	        {
+	         	xhr=new ActiveXObject("Microsoft.XMLHTTP");
+	     	}
+	  		catch (e)
+	     	{
+	     		alert("您的浏览器不支持AJAX！");
+	     		return false;
+	     	}
+	  	}
+	}
+	return xhr;
+ }
 
 /*
  *异步访问提交处理
  */
 function GetConfig() 
 {
+
 	var xhr;
+	//document.getElementById("setnet232").style.display = "none";
+    //document.getElementById("selbau232").style.display = "none";
+    //document.getElementById("setnet485").style.display = "none";
+    //document.getElementById("selbau485").style.display = "none";
     xhr = createXHR();
 
     if(xhr)
@@ -297,8 +356,7 @@ function GetConfig()
     
 
         //test.cgi后面跟个cur_time参数是为了防止Ajax页面缓存
-        xhr.open("GET", "cgi-bin/config.cgi?getconf");
-    
+        xhr.open("GET", "cgi-bin/config.cgi?getconf"+ new Date().getTime());
         xhr.send(null);
     }
     else
@@ -309,31 +367,75 @@ function GetConfig()
 }
 
 
-function baudratepress(bauset){
-	var selObj = document.getElementById("selbau");
-	var baulib=new Array("2400","4800","9600","14400","19200","38400","57600","115200","230400","460800","921600");
-	var Option = document.createElement("OPTION");
-	Option.value = bauset;
-	Option.text = bauset;
-	selObj.options.add(Option);
-	for(var i=0 ; i<baulib.length ; i++)
+function baudratepress(bauset , flag)
+{
+	if(0==flag)
 	{
-		if(bauset!=baulib[i])
-		{
-			var Option = document.createElement("OPTION");
-			Option.value=baulib[i];
-			Option.text=baulib[i];
-			selObj.options.add(Option);
-		}
+		var selObj = document.getElementById("selbau232");
+		
 	}
+	else
+	{
+		var selObj = document.getElementById("selbau485");
+	}
+	var baulib=new Array("2400","4800","9600","14400","19200","38400","57600","115200","230400","460800","921600");
+		var Option = document.createElement("OPTION");
+		Option.value = bauset;
+		Option.text = bauset;
+		selObj.options.add(Option);
+		for(var i=0 ; i<baulib.length ; i++)
+		{
+			if(bauset!=baulib[i])
+			{
+				var Option = document.createElement("OPTION");
+				Option.value=baulib[i];
+				Option.text=baulib[i];
+				selObj.options.add(Option);
+			}
+		}
 	
 }
+
+
 //数据处理函数
 function dataProcess(returnValue){
-	var selObj = document.getElementById("setnet");
+	
 	//以/\n切割字符串
 	var str0 = returnValue.split(/\n\/*/g);
-	
+	if ( !Array.prototype.forEach ) //判定浏览器是否支持foreach函数,解决IE无法支持的问题
+	{
+
+		Array.prototype.forEach = function forEach( callback, thisArg ) 
+		{		
+			var T, k;
+			
+			if ( this == null )
+			{
+				throw new TypeError( "this is null or not defined" );
+			}
+			var O = Object(this);
+			var len = O.length >>> 0; 
+			if ( typeof callback !== "function" ) 
+			{
+				throw new TypeError( callback + " is not a function" );
+			}
+			if ( arguments.length > 1 ) 
+			{
+				T = thisArg;
+			}
+			k = 0;			
+			while( k < len )
+			{			
+				var kValue;
+				if ( k in O ) 
+				{			
+					kValue = O[ k ];
+					callback.call( T, kValue, k, O );
+				}
+				k++;
+			}
+		};
+	}
 	str0.forEach(function (eachData){
 		//以=切割字符串	
 		var str1 = eachData.split("=");
@@ -347,6 +449,11 @@ function dataProcess(returnValue){
 				break;
 			case "MAC":
 				document.getElementById("MAC").innerHTML = str1[1];
+				var strmachine="01_TX3251_";
+				var splitFrist=str1[1].split(':');
+				var resultstr=splitFrist.join('');
+				strmachine+=resultstr;
+				document.getElementById("MACID").innerHTML=strmachine;
 				break;
 			case "IMEI":
 				document.getElementById("IMEI").innerHTML = str1[1];
@@ -357,22 +464,63 @@ function dataProcess(returnValue){
 			case "Port":
 				document.getElementById("Port").value = str1[1];
 				break;
-			case "Porttypea":
-				document.getElementById("Porttypea").checked = true;
+			case "Portselect":
+				if("1"==str1[1])
+				{
+					IsSelect232Port=1;
+       				//document.getElementById("setnet232").style.display = "block";
+        			//document.getElementById("selbau232").style.display = "block";
+					document.getElementById("Porttypea232").checked=true;
+				}
+				else if("2"==str1[1])
+				{
+					IsSelect485Port=1;
+       				//document.getElementById("setnet485").style.display = "block";
+        			//document.getElementById("selbau485").style.display = "block";
+					document.getElementById("Porttypeb485").checked=true;
+				}
+				else
+				{
+					IsSelect232Port=1;
+					IsSelect485Port=1;
+       				//document.getElementById("setnet232").style.display = "block";
+        			//document.getElementById("selbau232").style.display = "block";
+					document.getElementById("Porttypea232").checked=true;									
+       				//document.getElementById("setnet485").style.display = "block";
+        			//document.getElementById("selbau485").style.display = "block";
+					document.getElementById("Porttypeb485").checked=true;
+				
+				}
 				break;
-			case "Porttypeb":
-				document.getElementById("Porttypeb").checked = true;
+			case "bau232":				
+				baudratepress(str1[1] , 0);//传进来232波特率的值
 				break;
-			case "bau0":
-				baudratepress(str1[1]);//传进来波特率的值
+			case "bau485":
+				baudratepress(str1[1] , 1);//传进来的485波特率得值
 				break;
-			case "Lib":
+			case "Lib232":			
+				var selObj = document.getElementById("setnet232");
 				var Option = document.createElement("OPTION");
 				Option.value=str1[1];
 				Option.text=str1[1];
 				selObj.options.add(Option);				
 				break;
-			case "setnet":
+			case "Lib485":			
+				var selObj = document.getElementById("setnet485");
+				var Option = document.createElement("OPTION");
+				Option.value=str1[1];
+				Option.text=str1[1];
+				selObj.options.add(Option);				
+				break;
+			case "setnet232":				
+				var selObj = document.getElementById("setnet232");
+				var Option = document.createElement("OPTION");
+				Option.value=str1[1];
+				Option.text=str1[1];
+				selObj.options.add(Option);				
+				break;
+			case "setnet485":
+				var selObj = document.getElementById("setnet485");
 				var Option = document.createElement("OPTION");
 				Option.value=str1[1];
 				Option.text=str1[1];
@@ -426,6 +574,7 @@ var SysState=0xff;
 var num = 0;
 var timer;
 function progress(timeValue){
+	var flag=0;
 	//加载进度条
 	document.getElementById("box").style.display = "block";
 	document.getElementById("text").innerHTML = "系统正在升级,请保持电源连接稳定\n     正在下载.....";
@@ -445,49 +594,70 @@ function progress(timeValue){
 			switch(SysState)
 			{
 				case "0":
-					document.getElementById("text").innerHTML = "系统正在升级,请保持电源连接稳定\n    系统更新成功";
+					flag=1;
+					document.getElementById("text").innerHTML = "请保持电源连接稳定\n";
 					document.getElementsByClassName("progress")[0].style.width = 100*3 + "px";
 					document.getElementsByTagName("span")[0].innerHTML = 100 + "%";
-					alert("系统更新成功");
+					setTimeout(function (){
+						if (hasfile!=2)
+							alert("系统配置成功");	
+						else
+							alert("系统更新成功");						
+					},1000);
 					break;
 				case "1":
-					document.getElementById("text").innerHTML = "系统正在升级,请保持电源连接稳定\n    系统更新失败:MD5校验失败";
+					flag=1;
+					document.getElementById("text").innerHTML = "请保持电源连接稳定\n    系统更新失败:MD5校验失败";
 					document.getElementsByClassName("progress")[0].style.width = 20*3 + "px";
 					document.getElementsByTagName("span")[0].innerHTML = 20 + "%";
 					alert("系统更新失败:MD5校验失败");
 					break;
 				case "2":
-					document.getElementById("text").innerHTML = "系统正在升级,请保持电源连接稳定\n     系统更新失败:解压状态失败";
+					flag=1;
+					document.getElementById("text").innerHTML = "请保持电源连接稳定\n     系统更新失败:解压状态失败";
 					document.getElementsByClassName("progress")[0].style.width = 40*3 + "px";
 					document.getElementsByTagName("span")[0].innerHTML = 40 + "%";
 					alert("系统更新失败:解压状态失败");
 					break;
 				case "3":
-					document.getElementById("text").innerHTML = "系统正在升级,请保持电源连接稳定\n     系统更新失败:安装失败";
+					flag=1;
+					document.getElementById("text").innerHTML = "请保持电源连接稳定\n     系统更新失败:安装失败";
 					document.getElementsByClassName("progress")[0].style.width = 60*3 + "px";
 					document.getElementsByTagName("span")[0].innerHTML = 60 + "%";
 					alert("系统更新失败:安装失败");
 					break;
 				case "4":
-					document.getElementById("text").innerHTML = "系统正在升级,请保持电源连接稳定\n     系统更新失败:删除升级文件失败";
+					flag=1;
+					document.getElementById("text").innerHTML = "请保持电源连接稳定\n     系统更新失败:删除升级文件失败";
 					document.getElementsByClassName("progress")[0].style.width = 80*3 + "px";
 					document.getElementsByTagName("span")[0].innerHTML = 80 + "%";
 					alert("系统更新失败:删除升级文件失败");
 					break;
 				default:
-				SysState=0xff;
+					if(hasfile!=2)
+					{
+						//document.getElementById("text").innerHTML = "请保持电源连接稳定\n";
+						//document.getElementsByClassName("progress")[0].style.width = 100*3 + "px";
+						//document.getElementsByTagName("span")[0].innerHTML = 100 + "%";
+						SysState="0";
+					}
+					else
+					{
+						SysState=0xff;
+					}
+					flag=0;
 				break;
 			
 			}
 			//关闭定时器
 	
-			if(SysState!=0xff)
+			if(flag==1)
 			{
 				setTimeout(function (){
 				document.getElementById("box").style.display = "none";
 				document.getElementById("enter").style.display = "block";
 				window.location.reload();
-			},1000)
+			},1000);
 			clearInterval(timer);
 			}
 			return;
@@ -500,10 +670,15 @@ function progress(timeValue){
 /*
  *异步访问提交处理
  */
+var hasfile=0;
 function ShowLoadNews() 
 {
+	if(0==IsSelect232Port&&0==IsSelect485Port)
+	{
+		alert("非法参数:未选择通讯端口");
+		return;
+	}
 	xhr.abort();
-	var hasfile=0;
 	var ff = document.getElementsByTagName("input");
 	for(var i=0;i< ff.length; i++)
 	{
@@ -516,8 +691,7 @@ function ShowLoadNews()
 	  }
 	}
 	if(hasfile!=2)
-	{
-		SysState="0";
+	{		
 		progress(100);
 		return;
 	}

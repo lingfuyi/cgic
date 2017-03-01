@@ -111,12 +111,15 @@ input{
 <BODY style="background:#666666" onload="GetConfig()">
 <iframe name="server" style="display:none;" src=' '></iframe> 
 <form action="/cgi-bin/config.cgi" method="POST" target="server" ENCTYPE="multipart/form-data">
-<input style="border-radius:5px;background: red;width:200px;height:60px;font-size:24px ;font-weight:bold;color:white"  id="connectstatus" input type="submit"  disabled="true"  value="云平台离线" >
+<input style="border-radius:5px;background: red;width:150px;height:60px;font-size:24px ;font-weight:bold;color:white"  id="connectstatus" input type="submit"  disabled="true"  value="服务停止" >
 <table  id="table" cellpadding="5" width="60%" border="1px" align="center"  border-radius="5px"><tr bgcolor="#E0F0F"></tr><br>
 <tr><td align="center" width="20%" style="color: black;font-weight:bold;">硬件版本号:</td><td id = "HardVersion"></td></tr>
 <tr><td align="center" width="20%" style="color: black;font-weight:bold;">软件版本号:</td><td id = "SoftVersion"></td></tr>
 <tr><td align="center" width="20%" style="color: black;font-weight:bold;">MAC:</td><td id = "MAC"></td></tr>
-<tr><td align="center" width="20%" style="color: black;font-weight:bold;">适配器ID:</td><td id = "MACID" style="font-weight:bold"></td></tr>
+<tr>
+<td align="center" width="20%" style="color: black;font-weight:bold;">适配器ID:</td><td id = "AdapterID" style="font-weight:bold"></td>
+</tr>
+
 <tr><td align="center" width="20%" style="color: black;font-weight:bold;">IMEI:</td><td id = "IMEI"></td></tr>
 <tr><td align="center" width="20%" style="color: black;font-weight:bold;">服务器IP:</td><td ><input name="ip" size="30" id = "Ip"></td></tr>
 <tr><td align="center" width="20%" style="color: black;font-weight:bold;">端口号:</td><td><input name="port" size="30" id = "Port"></td></tr>
@@ -135,6 +138,18 @@ input{
 <select name ="net232" id="setnet232" ></select></td></tr>
 <tr><td align="center" width="20%" style="color: black;font-weight:bold;">通讯协议(RS485):</td><td>
 </select><select name ="net485" id="setnet485"></select></td></tr>	
+<tr>
+<td align="center" width="20%" style="color: black;font-weight:bold;">控制器类型:</td>
+<td><select name="controllertype" id="controllertypeid">
+  <option value="1">火灾报警控制器</option>
+  <option value="10">可燃气体报警控制器</option>
+  <option value="11">电气火灾监控设备</option>
+  <option value="22">气体灭火控制器</option>
+  <option value="31">消防设备电源监控器</option>
+  <option value="34">防火门监控器</option>
+</select></td>
+</tr>
+<tr><td align="center" width="20%" style="color: black;font-weight:bold;">控制器ID:</td><td><input name="controllerid" size="30" id = "controlleridid"></td></tr>
 <tr><td align="center" width="20%" style="color: black;font-weight:bold;">升级文件上载:</td><td align="left" width="20%"><div class="file-box"> 
 <input type='text' name='textfield1' id='textfield1' class='txt' /> 
 <input type='button' class='btn' value='浏览' /> <input type="file" name="updatefile" class="file" id="fileField1" size="28" onchange="document.getElementById('textfield1').value=this.value" /> </div> 
@@ -142,7 +157,6 @@ input{
 <input type="file" name="MD5file" class="file" id="fileField2" size="28" onchange="document.getElementById('textfield2').value=this.value" /> </div> 
 <tr><td></td><td align="left">
 <input class ="button" id="enter" input type="submit" name="Setting" onclick="ShowLoadNews()"  value="确认">
-
 </table>
 </form>
 <div id="box">
@@ -152,6 +166,8 @@ input{
 	</div>
 	<p id = "text"></p>
 </div>
+
+<td><input style="margin-right:10px; text-decoration:underline border-radius:5px;background: greenyellow;width:100px;height:30px;font-size:18px ; font-weight:bold;color:black" input type="button"  onClick="location='./watersys.html'" value="水系统配置" >
 </BODY>
 
 
@@ -242,11 +258,11 @@ function StatusProcess(returnValue)
 		switch(str1[1])
 		{
 			case "Run":
-				document.getElementById("connectstatus").value="云平台连接";
+				document.getElementById("connectstatus").value="服务启动";
 				document.getElementById("connectstatus").style.background="green";
 				break;
 			case "Stop":
-				document.getElementById("connectstatus").value="云平台断开";
+				document.getElementById("connectstatus").value="服务停止";
 				document.getElementById("connectstatus").style.background="red";
 			break;
 		}
@@ -378,7 +394,8 @@ function baudratepress(bauset , flag)
 	{
 		var selObj = document.getElementById("selbau485");
 	}
-	var baulib=new Array("2400","4800","9600","14400","19200","38400","57600","115200","230400","460800","921600");
+	//var baulib=new Array("2400","4800","9600","14400","19200","38400","57600","115200","230400","460800","921600");
+	var baulib=new Array(2400,4800,9600,14400,19200,38400,57600,115200,230400,460800,921600);
 		var Option = document.createElement("OPTION");
 		Option.value = bauset;
 		Option.text = bauset;
@@ -396,12 +413,12 @@ function baudratepress(bauset , flag)
 	
 }
 
-
+var Systype;
 //数据处理函数
 function dataProcess(returnValue){
 	
 	//以/\n切割字符串
-	var str0 = returnValue.split(/\n\/*/g);
+	var str0 = returnValue.split('/');
 	if ( !Array.prototype.forEach ) //判定浏览器是否支持foreach函数,解决IE无法支持的问题
 	{
 
@@ -449,11 +466,24 @@ function dataProcess(returnValue){
 				break;
 			case "MAC":
 				document.getElementById("MAC").innerHTML = str1[1];
-				var strmachine="01_TX3251_";
-				var splitFrist=str1[1].split(':');
-				var resultstr=splitFrist.join('');
-				strmachine+=resultstr;
-				document.getElementById("MACID").innerHTML=strmachine;
+				break;
+			case "CPUID":
+				var strmachine = "01_TX3251_";
+							
+				strmachine += str1[1];
+				document.getElementById("AdapterID").innerHTML = strmachine;	
+				break;
+			case "controllertype":
+				var value=Number(str1[1]);
+				var opts = document.getElementById("controllertypeid");
+				for(var i=0;i<opts.options.length;i++)
+				{
+				    if(value==opts.options[i].value)
+				    {
+				        opts.options[i].selected = 'selected';
+				        break;
+				    }
+				}
 				break;
 			case "IMEI":
 				document.getElementById("IMEI").innerHTML = str1[1];
@@ -464,19 +494,25 @@ function dataProcess(returnValue){
 			case "Port":
 				document.getElementById("Port").value = str1[1];
 				break;
+			case "controllerid":
+				document.getElementById("controlleridid").value = str1[1];
+				break;
 			case "Portselect":
-				if("1"==str1[1])
+				var value=Number(str1[1]);
+				if(1==value)
 				{
 					IsSelect232Port=1;
        				//document.getElementById("setnet232").style.display = "block";
         			//document.getElementById("selbau232").style.display = "block";
 					document.getElementById("Porttypea232").checked=true;
+					document.getElementById("Porttypeb485").checked=false;
 				}
-				else if("2"==str1[1])
+				else if(2==value)
 				{
 					IsSelect485Port=1;
        				//document.getElementById("setnet485").style.display = "block";
         			//document.getElementById("selbau485").style.display = "block";
+        			document.getElementById("Porttypea232").checked=false;		
 					document.getElementById("Porttypeb485").checked=true;
 				}
 				else
@@ -492,7 +528,7 @@ function dataProcess(returnValue){
 				
 				}
 				break;
-			case "bau232":				
+			case "bau232":		
 				baudratepress(str1[1] , 0);//传进来232波特率的值
 				break;
 			case "bau485":

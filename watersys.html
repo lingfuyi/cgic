@@ -1,0 +1,1153 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
+<HTML><HEAD>
+<METAHTTP-EQUIV="Pragma"CONTENT="no-cache">
+<METAHTTP-EQUIV="Cache-Control"CONTENT="no-cache">
+<METAHTTP-EQUIV="Expires"CONTENT="0">
+<meta charset="utf-8">
+<TITLE>适配器配置</TITLE>
+<style>
+#table{
+	border-radius:20px;
+	border:0px;
+	background:#CCCCCC;
+}
+#table td{
+	color:black;
+	font-family:"仿宋";
+	color:#666666;border:0px;
+}
+#h1{
+	color:#CCCCCC;
+	font-family:"仿宋";
+}
+input{
+	font-family:"仿宋";
+	height:30px;
+	color:#0;
+	border : 0;
+	background:#F0FFFF;
+}
+.button{
+	margin-right:10px;
+	background:#666666;
+	width:80px;
+	border-radius:5px;
+	color:#FAF0E6;
+}
+.button:active{
+	background:green;
+}
+.file-box{
+	 position:relative;
+	 width:340px;
+} 
+.txt{ 
+	height:30px;
+	 border:1px solid #CCCCCC; 
+	 width:180px;
+} 
+.btn{ 
+	background-color:#666666;
+	 border:1px solid #CDCDCD;
+	 height:30px; 
+	 width:70px;
+} 
+.file{ 
+	position:absolute; 
+	top:0;
+    right:80px; 
+    height:30px; 
+    filter:alpha(opacity:0);
+    opacity: 0;
+    width:260px 
+} 
+#box{
+	width:400px;
+	height:200px;
+	border:1px solid black;
+	border-radius:5px;
+	position:relative;
+	background-color: darkgray;top:-150px;/*改变此数值，改变显示位置*/
+	left:800px;/*改变此数值，改变显示位置*/
+	display:none;
+}
+#proBox{
+	width:300px;
+	height:15px;
+	border:1px solid black;
+	border-radius:10px;
+	position:absolute;
+	top:20px;
+	left:40px;
+}
+#proBox .progress{
+	width:0px;height:15px;
+	border-radius:10px;
+	position:absolute;
+	background:green;/*可以加载背景图片：格式：background:url(背景图片地址) x-repeat left center*/
+	top:-16px;
+	left:0px;
+}
+#proBox span{
+	position:absolute;
+	top:-0px;
+	left:305px;
+	font-size:14px "微软雅黑";
+}
+#text{
+	width:250px;
+	text-align: center;
+	min-height:20px;
+	line-height:20px;
+	position:absolute;
+	top:35px;
+	left:80px;
+	font-size:14px "仿宋";
+}
+
+	
+</style>
+</HEAD>
+<BODY style="background:#666666" onload="GetConfig()">
+<iframe name="server" style="display:none;" src=' '></iframe> 
+<form action="/cgi-bin/waterconfig.cgi" method="POST" target="server" ENCTYPE="multipart/form-data">
+<table  id="table" cellpadding="5" width="60%" border="1px" align="center"  border-radius="5px"><tr bgcolor="#E0F0F"></tr><br>
+<caption style="font-size:24px ;font-weight:bold;color:red" " align="top">水系统配置</caption>
+<tr><td style="color: black;font-weight:bold;">通道号</td>
+<td style="color: black;font-weight:bold;">信号类型</td>
+<td style="color: black;font-weight:bold;">量程(Pa/m/℃)</td>
+<td style="color: black;font-weight:bold;">下限报警阈值</td>
+<td style="color: black;font-weight:bold;">上限报警阈值</td>
+<td style="color: black;font-weight:bold;">采集周期(s)</td>
+<td style="color: black;font-weight:bold;">初始值</td>
+<td style="color: black;font-weight:bold;">安装位置</td>
+</tr>
+<!--  ---------------------------------------------------------#1-----------------------------------------------------  -->
+
+<tr><td style="color: black;font-weight:bold;">1#<input type="checkbox" name="channel1" id=switch1 value="1"></td>
+<td><select name="parametertype1" id="type1">
+  <option value="0">液压</option>
+  <option value="1">水位</option>
+  <option value="2">温度</option>
+  <option value="3">湿度</option>
+</select></td>
+
+<td><input name="range1" id="rangesize1" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="lowarm1"id="lowlimite1" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="higharm1" id="highlimite1"  size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="timetick1" id="rate1" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="startvalue1" id="startvalueid1" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="pos1" id="location1" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+</tr>
+
+<!--  ---------------------------------------------------------#2-----------------------------------------------------  -->
+
+<tr><td style="color: black;font-weight:bold;">2#<input type="checkbox" name="channel2" id=switch2 value="1"></td>
+<td><select name="parametertype2" id="type2">
+  <option value="0">液压</option>
+  <option value="1">水位</option>
+  <option value="2">温度</option>
+  <option value="3">湿度</option>
+</select></td>
+
+<td><input name="range2" id="rangesize2" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="lowarm2"id="lowlimite2" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="higharm2" id="highlimite2"  size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="timetick2" id="rate2" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="startvalue2" id="startvalueid2" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="pos2" id="location2" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+</tr>
+
+<!--  ---------------------------------------------------------#3-----------------------------------------------------  -->
+
+<tr><td style="color: black;font-weight:bold;">3#<input type="checkbox" name="channel3" id=switch3 value="1"></td>
+<td><select name="parametertype3" id="type3">
+  <option value="0">液压</option>
+  <option value="1">水位</option>
+  <option value="2">温度</option>
+  <option value="3">湿度</option>
+</select></td>
+
+<td><input name="range3" id="rangesize3" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="lowarm3"id="lowlimite3" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="higharm3" id="highlimite3"  size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="timetick3" id="rate3" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="startvalue3" id="startvalueid3" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="pos3" id="location3" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+</tr>
+
+<!--  ---------------------------------------------------------#4-----------------------------------------------------  -->
+
+<tr><td style="color: black;font-weight:bold;">4#<input type="checkbox" name="channel4" id=switch4 value="1"></td>
+<td><select name="parametertype4" id="type4">
+  <option value="0">液压</option>
+  <option value="1">水位</option>
+  <option value="2">温度</option>
+  <option value="3">湿度</option>
+</select></td>
+
+<td><input name="range4" id="rangesize4" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="lowarm4"id="lowlimite4" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="higharm4" id="highlimite4"  size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="timetick4" id="rate4" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="startvalue4" id="startvalueid4" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="pos4" id="location4" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+</tr>
+
+<!--  ---------------------------------------------------------#5-----------------------------------------------------  -->
+
+<tr><td style="color: black;font-weight:bold;">5#<input type="checkbox" name="channel5" id=switch5 value="1"></td>
+<td><select name="parametertype5" id="type5">
+  <option value="0">液压</option>
+  <option value="1">水位</option>
+  <option value="2">温度</option>
+  <option value="3">湿度</option>
+</select></td>
+
+<td><input name="range5" id="rangesize5" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="lowarm5"id="lowlimite5" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="higharm5" id="highlimite5"  size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="timetick5" id="rate5" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="startvalue5" id="startvalueid5" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="pos5" id="location5" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+</tr>
+
+<!--  ---------------------------------------------------------#6-----------------------------------------------------  -->
+
+<tr><td style="color: black;font-weight:bold;">6#<input type="checkbox" name="channel6" id=switch6 value="1"></td>
+<td><select name="parametertype6" id="type6">
+  <option value="0">液压</option>
+  <option value="1">水位</option>
+  <option value="2">温度</option>
+  <option value="3">湿度</option>
+</select></td>
+
+<td><input name="range6" id="rangesize6" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="lowarm6"id="lowlimite6" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="higharm6" id="highlimite6"  size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="timetick6" id="rate6" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="startvalue6" id="startvalueid6" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="pos6" id="location6" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+</tr>
+
+<!--  ---------------------------------------------------------#7-----------------------------------------------------  -->
+
+<tr><td style="color: black;font-weight:bold;">7#<input type="checkbox" name="channel7" id=switch7 value="1"></td>
+<td><select name="parametertype7" id="type7">
+  <option value="0">液压</option>
+  <option value="1">水位</option>
+  <option value="2">温度</option>
+  <option value="3">湿度</option>
+</select></td>
+
+<td><input name="range7" id="rangesize7" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="lowarm7"id="lowlimite7" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="higharm7" id="highlimite7"  size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="timetick7" id="rate7" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="startvalue7" id="startvalueid7" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="pos7" id="location7" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+</tr>
+
+<!--  ---------------------------------------------------------#8-----------------------------------------------------  -->
+
+<tr><td style="color: black;font-weight:bold;">8#<input type="checkbox" name="channel8" id=switch8 value="1"></td>
+<td><select name="parametertype8" id="type8">
+  <option value="0">液压</option>
+  <option value="1">水位</option>
+  <option value="2">温度</option>
+  <option value="3">湿度</option>
+</select></td>
+
+<td><input name="range8" id="rangesize8" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="lowarm8"id="lowlimite8" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="higharm8" id="highlimite8"  size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="timetick8" id="rate8" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="startvalue8" id="startvalueid8" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="pos8" id="location8" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+</tr>
+
+<!--  ---------------------------------------------------------#9-----------------------------------------------------  -->
+
+<tr><td style="color: black;font-weight:bold;">9#<input type="checkbox" name="channel9" id=switch9 value="1"></td>
+<td><select name="parametertype9" id="type9">
+  <option value="0">液压</option>
+  <option value="1">水位</option>
+  <option value="2">温度</option>
+  <option value="3">湿度</option>
+</select></td>
+
+<td><input name="range9" id="rangesize9" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="lowarm9"id="lowlimite9" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="higharm9" id="highlimite9"  size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="timetick9" id="rate9" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="startvalue9" id="startvalueid9" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="pos9" id="location9" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+</tr>
+
+<!--  ---------------------------------------------------------#10-----------------------------------------------------  -->
+
+<tr><td style="color: black;font-weight:bold;">10#<input type="checkbox" name="channel10" id=switch10 value="1"></td>
+<td><select name="parametertype10" id="type10">
+  <option value="0">液压</option>
+  <option value="1">水位</option>
+  <option value="2">温度</option>
+  <option value="3">湿度</option>
+</select></td>
+
+<td><input name="range10" id="rangesize10" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="lowarm10" id="lowlimite10" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="higharm10" id="highlimite10"  size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="timetick10" id="rate10" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="startvalue10" id="startvalueid10" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="pos10" id="location10" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+</tr>
+
+<!--  ---------------------------------------------------------#11-----------------------------------------------------  -->
+
+<tr><td style="color: black;font-weight:bold;">11#<input type="checkbox" name="channel11" id=switch11 value="1"></td>
+<td><select name="parametertype11" id="type11">
+  <option value="0">液压</option>
+  <option value="1">水位</option>
+  <option value="2">温度</option>
+  <option value="3">湿度</option>
+</select></td>
+
+<td><input name="range11" id="rangesize11" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="lowarm11" id="lowlimite11" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="higharm11" id="highlimite11"  size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="timetick11" id="rate11" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="startvalue11" id="startvalueid11" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="pos11" id="location11" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+</tr>
+<!--  ---------------------------------------------------------#12-----------------------------------------------------  -->
+
+<tr><td style="color: black;font-weight:bold;">12#<input type="checkbox" name="channel12" id=switch12 value="1"></td>
+<td><select name="parametertype12" id="type12">
+  <option value="0">液压</option>
+  <option value="1">水位</option>
+  <option value="2">温度</option>
+  <option value="3">湿度</option>
+</select></td>
+
+<td><input name="range12" id="rangesize12" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="lowarm12" id="lowlimite12" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="higharm12" id="highlimite12"  size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="timetick12" id="rate12" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="startvalue12" id="startvalueid12" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="pos12" id="location12" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+</tr>
+<!--  ---------------------------------------------------------#13-----------------------------------------------------  -->
+
+<tr><td style="color: black;font-weight:bold;">13#<input type="checkbox" name="channel13" id=switch13 value="1"></td>
+<td><select name="parametertype13" id="type13">
+  <option value="0">液压</option>
+  <option value="1">水位</option>
+  <option value="2">温度</option>
+  <option value="3">湿度</option>
+</select></td>
+
+<td><input name="range13" id="rangesize13" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="lowarm13" id="lowlimite13" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="higharm13" id="highlimite13"  size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="timetick13" id="rate13" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="startvalue13" id="startvalueid13" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="pos13" id="location13" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+</tr>
+<!--  ---------------------------------------------------------#14-----------------------------------------------------  -->
+
+<tr><td style="color: black;font-weight:bold;">14#<input type="checkbox" name="channel14" id=switch14 value="1"></td>
+<td><select name="parametertype14" id="type14">
+  <option value="0">液压</option>
+  <option value="1">水位</option>
+  <option value="2">温度</option>
+  <option value="3">湿度</option>
+</select></td>
+
+<td><input name="range14" id="rangesize14" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="lowarm14" id="lowlimite14" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="higharm14" id="highlimite14"  size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="timetick14" id="rate14" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="startvalue14" id="startvalueid14" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="pos14" id="location14" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+</tr>
+<!--  ---------------------------------------------------------#15-----------------------------------------------------  -->
+
+<tr><td style="color: black;font-weight:bold;">15#<input type="checkbox" name="channel15" id=switch15 value="1"></td>
+<td><select name="parametertype15" id="type15">
+  <option value="0">液压</option>
+  <option value="1">水位</option>
+  <option value="2">温度</option>
+  <option value="3">湿度</option>
+</select></td>
+
+<td><input name="range15" id="rangesize15" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="lowarm15" id="lowlimite15" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="higharm15" id="highlimite15"  size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="timetick15" id="rate15" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="startvalue15" id="startvalueid15" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="pos15" id="location15" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+</tr>
+<!--  ---------------------------------------------------------#16-----------------------------------------------------  -->
+
+<tr><td style="color: black;font-weight:bold;">16#<input type="checkbox" name="channel16" id=switch16 value="1"></td>
+<td><select name="parametertype16" id="type16">
+  <option value="0">液压</option>
+  <option value="1">水位</option>
+  <option value="2">温度</option>
+  <option value="3">湿度</option>
+</select></td>
+
+<td><input name="range16" id="rangesize16" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="lowarm16" id="lowlimite16" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="higharm16" id="highlimite16"  size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="timetick16" id="rate16" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="startvalue16" id="startvalueid16" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+<td><input name="pos16" id="location16" size="15" style="font-weight: bold;font-size:16px "微软雅黑"  maxlength="5"></td>
+</tr>
+
+<td></td><td></td><td></td><td align="center">
+<input class ="button" id="enter" input type="submit" name="Setting" onclick="ShowLoadNews()"  value="确认">
+
+</table>
+</form>
+</BODY>
+
+
+<script type="text/javascript">
+/*------------------------------------------Start------------------------------------------------------------*/
+
+function dataProcess(returnValue){
+	
+	//以/\n切割字符串
+	var str0 = returnValue.split('/');
+	if ( !Array.prototype.forEach ) //判定浏览器是否支持foreach函数,解决IE无法支持的问题
+	{
+
+		Array.prototype.forEach = function forEach( callback, thisArg ) 
+		{		
+			var T, k;
+			
+			if ( this == null )
+			{
+				throw new TypeError( "this is null or not defined" );
+			}
+			var O = Object(this);
+			var len = O.length >>> 0; 
+			if ( typeof callback !== "function" ) 
+			{
+				throw new TypeError( callback + " is not a function" );
+			}
+			if ( arguments.length > 1 ) 
+			{
+				T = thisArg;
+			}
+			k = 0;			
+			while( k < len )
+			{			
+				var kValue;
+				if ( k in O ) 
+				{			
+					kValue = O[ k ];
+					callback.call( T, kValue, k, O );
+				}
+				k++;
+			}
+		};
+	}
+	str0.forEach(function (eachData){
+		//以=切割字符串	
+		var str1 = eachData.split("=");
+		console.log(str1[0]);
+		console.log(str1[1]);
+		switch(str1[0])
+		{
+/***************************************1************************************************************/
+			case "type1":
+				var value=Number(str1[1]);
+				var opts = document.getElementById("type1");
+				for(var i=0;i<opts.options.length;i++)
+				{
+				    if(value==opts.options[i].value)
+				    {
+				        opts.options[i].selected = 'selected';
+				        break;
+				    }
+				}
+	
+				break;
+			case "switch1":
+				if("1" == str1[1])
+				{
+					document.getElementById("switch1").checked=true;
+				}
+				break;
+			case "range1":
+				document.getElementById("rangesize1").value = str1[1];
+				break;
+			case "uplimite1":
+				document.getElementById("highlimite1").value = str1[1];
+			case "lowlimite1":
+				document.getElementById("lowlimite1").value = str1[1];
+				break;
+			case "rate1":
+				document.getElementById("rate1").value = str1[1];
+				break;
+			case "startvalue1":
+				document.getElementById("startvalueid1").value = str1[1];
+				break;
+			case "location1":				
+				document.getElementById("location1").value = str1[1];
+				break;
+/***************************************2************************************************************/
+			case "type2":
+				var value=Number(str1[1]);
+				var opts = document.getElementById("type2");
+				for(var i=0;i<opts.options.length;i++)
+				{
+				    if(value==opts.options[i].value)
+				    {
+				        opts.options[i].selected = 'selected';
+				        break;
+				    }
+				}
+	
+				break;
+			case "switch2":
+				if("1" == str1[1])
+				{
+					document.getElementById("switch2").checked=true;
+				}
+				break;
+			case "range2":
+				document.getElementById("rangesize2").value = str1[1];
+				break;
+			case "uplimite2":
+				document.getElementById("highlimite2").value = str1[1];
+			case "lowlimite2":
+				document.getElementById("lowlimite2").value = str1[1];
+				break;
+			case "rate2":
+				document.getElementById("rate2").value = str1[1];
+				break;
+			case "startvalue2":
+				document.getElementById("startvalueid2").value = str1[1];
+				break;
+			case "location2":				
+				document.getElementById("location2").value = str1[1];
+				break;
+/***************************************3************************************************************/
+			case "type3":
+				var value=Number(str1[1]);
+				var opts = document.getElementById("type3");
+				for(var i=0;i<opts.options.length;i++)
+				{
+				    if(value==opts.options[i].value)
+				    {
+				        opts.options[i].selected = 'selected';
+				        break;
+				    }
+				}
+	
+				break;
+			case "switch3":
+				if("1" == str1[1])
+				{
+					document.getElementById("switch3").checked=true;
+				}
+				break;
+			case "range3":
+				document.getElementById("rangesize3").value = str1[1];
+				break;
+			case "uplimite3":
+				document.getElementById("highlimite3").value = str1[1];
+			case "lowlimite3":
+				document.getElementById("lowlimite3").value = str1[1];
+				break;
+			case "rate3":
+				document.getElementById("rate3").value = str1[1];
+				break;
+			case "startvalue3":
+				document.getElementById("startvalueid3").value = str1[1];
+				break;
+			case "location3":				
+				document.getElementById("location3").value = str1[1];
+				break;		
+/***************************************4************************************************************/
+			case "type4":
+				var value=Number(str1[1]);
+				var opts = document.getElementById("type4");
+				for(var i=0;i<opts.options.length;i++)
+				{
+				    if(value==opts.options[i].value)
+				    {
+				        opts.options[i].selected = 'selected';
+				        break;
+				    }
+				}
+	
+				break;
+			case "switch4":
+				if("1" == str1[1])
+				{
+					document.getElementById("switch4").checked=true;
+				}
+				break;
+			case "range4":
+				document.getElementById("rangesize4").value = str1[1];
+				break;
+			case "uplimite4":
+				document.getElementById("highlimite4").value = str1[1];
+			case "lowlimite4":
+				document.getElementById("lowlimite4").value = str1[1];
+				break;
+			case "rate4":
+				document.getElementById("rate4").value = str1[1];
+				break;
+			case "startvalue4":
+				document.getElementById("startvalueid4").value = str1[1];
+				break;
+			case "location4":				
+				document.getElementById("location4").value = str1[1];
+				break;		
+/***************************************5************************************************************/
+			case "type5":
+				var value=Number(str1[1]);
+				var opts = document.getElementById("type5");
+				for(var i=0;i<opts.options.length;i++)
+				{
+				    if(value==opts.options[i].value)
+				    {
+				        opts.options[i].selected = 'selected';
+				        break;
+				    }
+				}
+	
+				break;
+			case "switch5":
+				if("1" == str1[1])
+				{
+					document.getElementById("switch5").checked=true;
+				}
+				break;
+			case "range5":
+				document.getElementById("rangesize5").value = str1[1];
+				break;
+			case "uplimite5":
+				document.getElementById("highlimite5").value = str1[1];
+			case "lowlimite5":
+				document.getElementById("lowlimite5").value = str1[1];
+				break;
+			case "rate5":
+				document.getElementById("rate5").value = str1[1];
+				break;
+			case "startvalue5":
+				document.getElementById("startvalueid5").value = str1[1];
+				break;
+			case "location5":				
+				document.getElementById("location5").value = str1[1];
+				break;				
+/***************************************6************************************************************/
+			case "type6":
+				var value=Number(str1[1]);
+				var opts = document.getElementById("type6");
+				for(var i=0;i<opts.options.length;i++)
+				{
+				    if(value==opts.options[i].value)
+				    {
+				        opts.options[i].selected = 'selected';
+				        break;
+				    }
+				}
+	
+				break;
+			case "switch6":
+				if("1" == str1[1])
+				{
+					document.getElementById("switch6").checked=true;
+				}
+				break;
+			case "range6":
+				document.getElementById("rangesize6").value = str1[1];
+				break;
+			case "uplimite6":
+				document.getElementById("highlimite6").value = str1[1];
+			case "lowlimite6":
+				document.getElementById("lowlimite6").value = str1[1];
+				break;
+			case "rate6":
+				document.getElementById("rate6").value = str1[1];
+				break;
+			case "startvalue6":
+				document.getElementById("startvalueid6").value = str1[1];
+				break;
+			case "location6":				
+				document.getElementById("location6").value = str1[1];
+				break;		
+/***************************************7************************************************************/
+			case "type7":
+				var value=Number(str1[1]);
+				var opts = document.getElementById("type7");
+				for(var i=0;i<opts.options.length;i++)
+				{
+				    if(value==opts.options[i].value)
+				    {
+				        opts.options[i].selected = 'selected';
+				        break;
+				    }
+				}
+	
+				break;
+			case "switch7":
+				if("1" == str1[1])
+				{
+					document.getElementById("switch7").checked=true;
+				}
+				break;
+			case "range7":
+				document.getElementById("rangesize7").value = str1[1];
+				break;
+			case "uplimite2":
+				document.getElementById("highlimite7").value = str1[1];
+			case "lowlimite7":
+				document.getElementById("lowlimite7").value = str1[1];
+				break;
+			case "rate7":
+				document.getElementById("rate7").value = str1[1];
+				break;
+			case "startvalue7":
+				document.getElementById("startvalueid7").value = str1[1];
+				break;
+			case "location7":				
+				document.getElementById("location7").value = str1[1];
+				break;		
+/***************************************8************************************************************/
+			case "type8":
+				var value=Number(str1[1]);
+				var opts = document.getElementById("type8");
+				for(var i=0;i<opts.options.length;i++)
+				{
+				    if(value==opts.options[i].value)
+				    {
+				        opts.options[i].selected = 'selected';
+				        break;
+				    }
+				}
+	
+				break;
+			case "switch8":
+				if("1" == str1[1])
+				{
+					document.getElementById("switch8").checked=true;
+				}
+				break;
+			case "range8":
+				document.getElementById("rangesize8").value = str1[1];
+				break;
+			case "uplimite8":
+				document.getElementById("highlimite8").value = str1[1];
+			case "lowlimite8":
+				document.getElementById("lowlimite8").value = str1[1];
+				break;
+			case "rate8":
+				document.getElementById("rate8").value = str1[1];
+				break;
+			case "startvalue8":
+				document.getElementById("startvalueid8").value = str1[1];
+				break;
+			case "location8":				
+				document.getElementById("location8").value = str1[1];
+				break;		
+/***************************************9************************************************************/
+			case "type9":
+				var value=Number(str1[1]);
+				var opts = document.getElementById("type9");
+				for(var i=0;i<opts.options.length;i++)
+				{
+				    if(value==opts.options[i].value)
+				    {
+				        opts.options[i].selected = 'selected';
+				        break;
+				    }
+				}
+	
+				break;
+			case "switch9":
+				if("1" == str1[1])
+				{
+					document.getElementById("switch9").checked=true;
+				}
+				break;
+			case "range9":
+				document.getElementById("rangesize9").value = str1[1];
+				break;
+			case "uplimite9":
+				document.getElementById("highlimite9").value = str1[1];
+			case "lowlimite9":
+				document.getElementById("lowlimite9").value = str1[1];
+				break;
+			case "rate9":
+				document.getElementById("rate9").value = str1[1];
+				break;
+			case "startvalue9":
+				document.getElementById("startvalueid9").value = str1[1];
+				break;
+			case "location9":				
+				document.getElementById("location9").value = str1[1];
+				break;	
+/***************************************10************************************************************/
+			case "type10":
+				var value=Number(str1[1]);
+				var opts = document.getElementById("type10");
+				for(var i=0;i<opts.options.length;i++)
+				{
+				    if(value==opts.options[i].value)
+				    {
+				        opts.options[i].selected = 'selected';
+				        break;
+				    }
+				}
+	
+				break;
+			case "switch10":
+				if("1" == str1[1])
+				{
+					document.getElementById("switch10").checked=true;
+				}
+				break;
+			case "range10":
+				document.getElementById("rangesize10").value = str1[1];
+				break;
+			case "uplimite10":
+				document.getElementById("highlimite10").value = str1[1];
+			case "lowlimite10":
+				document.getElementById("lowlimite10").value = str1[1];
+				break;
+			case "rate10":
+				document.getElementById("rate10").value = str1[1];
+				break;
+			case "startvalue10":
+				document.getElementById("startvalueid10").value = str1[1];
+				break;
+			case "location10":				
+				document.getElementById("location10").value = str1[1];
+				break;	
+/***************************************11************************************************************/
+			case "type11":
+				var value=Number(str1[1]);
+				var opts = document.getElementById("type11");
+				for(var i=0;i<opts.options.length;i++)
+				{
+				    if(value==opts.options[i].value)
+				    {
+				        opts.options[i].selected = 'selected';
+				        break;
+				    }
+				}
+	
+				break;
+			case "switch11":
+				if("1" == str1[1])
+				{
+					document.getElementById("switch11").checked=true;
+				}
+				break;
+			case "range11":
+				document.getElementById("rangesize11").value = str1[1];
+				break;
+			case "uplimite11":
+				document.getElementById("highlimite11").value = str1[1];
+			case "lowlimite11":
+				document.getElementById("lowlimite11").value = str1[1];
+				break;
+			case "rate11":
+				document.getElementById("rate11").value = str1[1];
+				break;
+			case "startvalue11":
+				document.getElementById("startvalueid11").value = str1[1];
+				break;
+			case "location11":				
+				document.getElementById("location11").value = str1[1];
+				break;	
+/***************************************12************************************************************/
+			case "type12":
+				var value=Number(str1[1]);
+				var opts = document.getElementById("type12");
+				for(var i=0;i<opts.options.length;i++)
+				{
+				    if(value==opts.options[i].value)
+				    {
+				        opts.options[i].selected = 'selected';
+				        break;
+				    }
+				}
+	
+				break;
+			case "switch12":
+				if("1" == str1[1])
+				{
+					document.getElementById("switch12").checked=true;
+				}
+				break;
+			case "range12":
+				document.getElementById("rangesize12").value = str1[1];
+				break;
+			case "uplimite12":
+				document.getElementById("highlimite12").value = str1[1];
+			case "lowlimite12":
+				document.getElementById("lowlimite12").value = str1[1];
+				break;
+			case "rate12":
+				document.getElementById("rate12").value = str1[1];
+				break;
+			case "startvalue12":
+				document.getElementById("startvalueid12").value = str1[1];
+				break;
+			case "location12":				
+				document.getElementById("location12").value = str1[1];
+				break;	
+/***************************************13************************************************************/
+			case "type13":
+				var value=Number(str1[1]);
+				var opts = document.getElementById("type13");
+				for(var i=0;i<opts.options.length;i++)
+				{
+				    if(value==opts.options[i].value)
+				    {
+				        opts.options[i].selected = 'selected';
+				        break;
+				    }
+				}
+	
+				break;
+			case "switch13":
+				if("1" == str1[1])
+				{
+					document.getElementById("switch13").checked=true;
+				}
+				break;
+			case "range13":
+				document.getElementById("rangesize13").value = str1[1];
+				break;
+			case "uplimite13":
+				document.getElementById("highlimite13").value = str1[1];
+			case "lowlimite13":
+				document.getElementById("lowlimite13").value = str1[1];
+				break;
+			case "rate13":
+				document.getElementById("rate13").value = str1[1];
+				break;
+			case "startvalue13":
+				document.getElementById("startvalueid13").value = str1[1];
+				break;
+			case "location13":				
+				document.getElementById("location13").value = str1[1];
+				break;	
+/***************************************14************************************************************/
+			case "type14":
+				var value=Number(str1[1]);
+				var opts = document.getElementById("type14");
+				for(var i=0;i<opts.options.length;i++)
+				{
+				    if(value==opts.options[i].value)
+				    {
+				        opts.options[i].selected = 'selected';
+				        break;
+				    }
+				}
+	
+				break;
+			case "switch14":
+				if("1" == str1[1])
+				{
+					document.getElementById("switch14").checked=true;
+				}
+				break;
+			case "range14":
+				document.getElementById("rangesize14").value = str1[1];
+				break;
+			case "uplimite14":
+				document.getElementById("highlimite14").value = str1[1];
+			case "lowlimite14":
+				document.getElementById("lowlimite14").value = str1[1];
+				break;
+			case "rate14":
+				document.getElementById("rate14").value = str1[1];
+				break;
+			case "startvalue14":
+				document.getElementById("startvalueid14").value = str1[1];
+				break;
+			case "location14":				
+				document.getElementById("location14").value = str1[1];
+				break;	
+/***************************************15************************************************************/
+			case "type15":
+				var value=Number(str1[1]);
+				var opts = document.getElementById("type15");
+				for(var i=0;i<opts.options.length;i++)
+				{
+				    if(value==opts.options[i].value)
+				    {
+				        opts.options[i].selected = 'selected';
+				        break;
+				    }
+				}
+	
+				break;
+			case "switch15":
+				if("1" == str1[1])
+				{
+					document.getElementById("switch15").checked=true;
+				}
+				break;
+			case "range15":
+				document.getElementById("rangesize15").value = str1[1];
+				break;
+			case "uplimite15":
+				document.getElementById("highlimite15").value = str1[1];
+			case "lowlimite15":
+				document.getElementById("lowlimite15").value = str1[1];
+				break;
+			case "rate15":
+				document.getElementById("rate15").value = str1[1];
+				break;
+			case "startvalue15":
+				document.getElementById("startvalueid15").value = str1[1];
+				break;
+			case "location15":				
+				document.getElementById("location15").value = str1[1];
+				break;	
+/***************************************16************************************************************/
+			case "type16":
+				var value=Number(str1[1]);
+				var opts = document.getElementById("type16");
+				for(var i=0;i<opts.options.length;i++)
+				{
+				    if(value==opts.options[i].value)
+				    {
+				        opts.options[i].selected = 'selected';
+				        break;
+				    }
+				}
+	
+				break;
+			case "switch16":
+				if("1" == str1[1])
+				{
+					document.getElementById("switch16").checked=true;
+				}
+				break;
+			case "range16":
+				document.getElementById("rangesize16").value = str1[1];
+				break;
+			case "uplimite16":
+				document.getElementById("highlimite16").value = str1[1];
+			case "lowlimite16":
+				document.getElementById("lowlimite16").value = str1[1];
+				break;
+			case "rate16":
+				document.getElementById("rate16").value = str1[1];
+				break;
+			case "startvalue16":
+				document.getElementById("startvalueid16").value = str1[1];
+				break;
+			case "location16":				
+				document.getElementById("location16").value = str1[1];
+				break;	
+
+		}
+	})
+}
+/*
+ *异步回调函数处理
+ */
+function callbackFunction()
+{
+    if (xhr.readyState == 4) 
+    {
+        if (xhr.status == 200) 
+        {
+            var returnValue = xhr.responseText;
+
+            if(returnValue != null && returnValue.length > 0)
+            {
+                dataProcess(returnValue);
+            }
+            else
+            {
+                console.log("结果为空！");
+            }
+        } 
+        else 
+        {
+           console.log("页面出现异常！");
+        }
+    }
+}
+	/*
+ *创建异步访问对象
+ */
+
+function createXHR()
+{ 
+	try
+    {
+	   // Firefox, Opera 8.0+, Safari
+	    xhr=new XMLHttpRequest();
+    }
+	catch (e)
+	{
+	  // Internet Explorer
+		try
+	    {
+	    	xhr=new ActiveXObject("Msxml2.XMLHTTP");
+	    }
+	    catch (e)
+	    {
+	    	try
+	        {
+	         	xhr=new ActiveXObject("Microsoft.XMLHTTP");
+	     	}
+	  		catch (e)
+	     	{
+	     		alert("您的浏览器不支持AJAX！");
+	     		return false;
+	     	}
+	  	}
+	}
+	return xhr;
+ }
+/*
+ *异步访问提交处理
+ */
+function GetConfig() 
+{
+
+	var xhr;
+
+    xhr = createXHR();
+
+    if(xhr)
+    {
+        xhr.onreadystatechange=callbackFunction;
+    
+
+        //test.cgi后面跟个cur_time参数是为了防止Ajax页面缓存
+        xhr.open("GET", "cgi-bin/waterconfig.cgi?getconf"+ new Date().getTime());
+        xhr.send(null);
+    }
+    else
+    {
+        //XMLHttpRequest对象创建失败
+        alert("浏览器不支持，请更换浏览器！");
+    }
+}
+
+function ShowLoadNews() 
+{
+	alert("配置成功");
+}
+
+
+
+</script>
+</HTML>

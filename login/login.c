@@ -40,12 +40,12 @@ int main( int argc, char *argv[] )
 		}
 		UserInput[data_len] = '\0';
 		if(UserInput[7]=='1'&&UserInput[8]=='3'&&UserInput[9]=='5'&&UserInput[10]=='7')
-		{			
+		{		
 			printf("<script>window.location.href='/config.html';</script>");
 		}
 		else
 		{
-			printf("key err<BR>\nyou input key is:<BR>\n %s",&UserInput[7]);
+			printf("key err<BR>\nyou input key is:<BR>\n %s %c",&UserInput[7]);
 		}
 	}		
     printf("</body></html>");

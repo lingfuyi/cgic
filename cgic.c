@@ -1640,7 +1640,7 @@ int cgiCompareSo(char *src , char *dst)
 	return 0;
 }
 cgiFormResultType cgiFormSelectSingle(
-	char *name, char choicesText[][20], int choicesTotal, 
+	char *name, char choicesText[][40], int choicesTotal, 
 	int *result, int defaultV) 
 {
 	cgiFormEntry *e;

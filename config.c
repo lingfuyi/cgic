@@ -4,7 +4,10 @@
 #include <stdlib.h>
 #include <sys/types.h>  
 #include <unistd.h>  
-#include<linux/reboot.h>
+#include <linux/reboot.h>
+#include <errno.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
 #define SOFILENUM 	10
 #define SOFILELEN	20
@@ -14,13 +17,16 @@ char Port[20]={0};
 char HardVersion[20]={0};
 char SoftVersion[20]={0};
 char IMEI[20]={0};
+char CPUID[30]={0};
+char ControllerID[30]={0};
+char ControllerType[30]={0};
 char MAC[30]={0};
 char Baudrate232[20]={0};
 char Baudrate485[20]={0};
 char Lib232[30]={0};
 char Lib485[30]={0};
 char PortSelect[30]={0};
-char TotleSoFile[10][20];
+char TotleSoFile[50][40];
 char TotleSoNum=0;
 const char *BaudrateTable[] = 
 {
@@ -36,7 +42,14 @@ const char *BaudrateTable[] =
 	"460800",
 	"921600"
 };
-
+const char *ControllerTypeTable[]=
+{
+	"1",
+	"11",
+	"22",
+	"31",
+	"34"
+};
 char *PortSelectTable[]=
 {
 	"1",
@@ -107,12 +120,15 @@ void GetFileOfSo(void)
 void GetMAC(void)
 {
 	FILE   *stream;  
-	stream = popen( "cat /etc/mac", "r" ); 
-	fread( MAC, sizeof(char), sizeof(MAC),	stream); 
+	stream = popen( "cat /etc/cpuid", "r" ); 
+	fread( CPUID, sizeof(char), sizeof(CPUID), stream); 
 	pclose( stream );  
-	MAC[sizeof(MAC)]='\0';
+	CPUID[sizeof(CPUID)] = '\0';
+	stream = popen( "cat /etc/mac", "r" ); 
+	fread( MAC, sizeof(char), sizeof(MAC), stream); 
+	pclose( stream );  
+	MAC[sizeof(MAC)] = '\0';
 }
-
 
 void GetSoFileList(void)
 {
@@ -177,6 +193,16 @@ void ReadTandaConf(void)
 				strncpy(SoftVersion,&StrLine[i+1],sizeof(SoftVersion));
 				SoftVersion[sizeof(SoftVersion)-1]='\0';
 			}
+			else if(!strcmp(ptr , "ControllerType"))
+			{
+				strncpy(ControllerType,&StrLine[i+1],sizeof(ControllerType));
+				ControllerType[sizeof(ControllerType)-1]='\0';
+			}
+			else if(!strcmp(ptr , "ControllerID"))
+			{
+				strncpy(ControllerID,&StrLine[i+1],sizeof(ControllerID));
+				ControllerID[sizeof(ControllerID)-1]='\0';
+			}
 			else if(!strcmp(ptr , "IMEI"))
 			{
 				strncpy(IMEI,&StrLine[i+1],sizeof(IMEI));
@@ -235,12 +261,15 @@ int WriteConfDat(void)
 	int bauChoice232;
 	int SoChoice485;
 	int bauChoice485;
+	int controllertypechoice;
 	int portselect[2];
 	int i;
 	int result , invalid;
 	ReadTandaConf();
+	cgiFormSelectSingleNormal("controllertype", ControllerTypeTable, 5, &controllertypechoice, 0);
 	cgiFormStringNoNewlines("ip", Ip, sizeof(Ip));
 	cgiFormStringNoNewlines("port", Port, sizeof(Port));
+	cgiFormStringNoNewlines("controllerid", ControllerID, sizeof(ControllerID));
 	result = cgiFormCheckboxMultiple("portcheck", PortSelectTable, 2, portselect, &invalid);
 	if (cgiFormNotFound == result) 
 	{
@@ -299,7 +328,15 @@ int WriteConfDat(void)
 		fputs("#SoftVersion\nSoftVersion=",fd);
 		fputs(SoftVersion, fd);
 		fputs("\n\n",fd);
+		
+		fputs("#ControllerType\nControllerType=",fd);
+		fputs(ControllerTypeTable[controllertypechoice], fd);
+		fputs("\n\n",fd);
 
+		fputs("#ControllerID\nControllerID=",fd);
+		fputs(ControllerID, fd);
+		fputs("\n\n",fd);
+		
 		fputs("#IMEI\nIMEI=",fd);
 		fputs(IMEI, fd);
 		fputs("\n\n",fd);
@@ -521,7 +558,10 @@ void RequistConfig(void)
 	ReadTandaConf();
 	fprintf(cgiOut, "SoftVersion=%s/",SoftVersion);
 	fprintf(cgiOut, "HardVersion=%s/",HardVersion);
-	fprintf(cgiOut, "MAC=%s\n",MAC);
+	fprintf(cgiOut, "MAC=%s/",MAC);
+	fprintf(cgiOut, "controllertype=%s/",ControllerType);
+	fprintf(cgiOut, "controllerid=%s/",ControllerID);
+	fprintf(cgiOut, "CPUID=%s/", CPUID);
 	fprintf(cgiOut, "IMEI=%s/",IMEI);
 	fprintf(cgiOut, "Ip=%s/",Ip);
 	fprintf(cgiOut, "Port=%s/",Port);
@@ -537,7 +577,6 @@ void RequistConfig(void)
 	{
 		fprintf(cgiOut, "Portselect=3\n/");
 	}
-	
 	fprintf(cgiOut, "bau232=%s/",Baudrate232);
 	fprintf(cgiOut, "Lib232=%s/",Lib232);
 	fprintf(cgiOut, "bau485=%s/",Baudrate485);
@@ -577,13 +616,14 @@ void GetSysState(void)
 {
 	FILE   *stream;  
 	char   buf[50]; 
+	
 	char c;
 	memset( buf,0,sizeof(buf));
 	stream = popen( "ps | grep SteamSensor | grep -v grep | awk '{print $1}'", "r" ); 
 	chmod(stream ,777);
 	fread( buf, sizeof(char), sizeof(buf),  stream); 
-	buf[sizeof(buf)]='\0';
-	if(strlen(buf)>4)
+	buf[strlen(buf)]='\0';
+	if(strlen(buf)>2)
 	{
 		c=GetSysUpState();
 		printf("%c=Run",c);
@@ -608,7 +648,6 @@ int cgiMain()
 		return -1;
 	}
 	request_method = getenv("REQUEST_METHOD"); // trans-type.
-
 	 // trans-type : GET 
 	if( ! strcmp( request_method, "GET" ) )
 	{
@@ -634,6 +673,7 @@ int cgiMain()
 		}
 		
 	}
+
 	if ((cgiFormSubmitClicked("Setting") == cgiFormSuccess))
 	{		
 		ret=WriteConfDat();
@@ -641,7 +681,7 @@ int cgiMain()
 		{
 			SubmitHandle();
 		}
-		printf("ret=%d",ret);
+		system("echo 6 > /data/uplog");
 	}
 	return 0;
 }
